@@ -41,14 +41,14 @@ export const savePlant = ({ id, ...values }: Plant): void => {
 };
 
 export const createPlant = (values: PlantInput): Plant | undefined => {
+  let result;
   db.write(() => {
-    return db.create('Plant', {
+    result = db.create<Plant>('Plant', {
       ...values,
       id: uid(),
-      created: new Date(values.created),
     });
   });
-  return undefined;
+  return result;
 };
 
 export const deletePlant = (id: string): void =>
@@ -56,3 +56,7 @@ export const deletePlant = (id: string): void =>
 
 export const getPlant = (id: string): Plant | undefined =>
   db.objectForPrimaryKey('Plant', id);
+
+export const getPlantsSortedBy = (prop: keyof Plant): Realm.Results<Plant> => {
+  return db.objects<Plant>('Plant')?.sorted(prop, true);
+};

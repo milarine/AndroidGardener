@@ -1,115 +1,53 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
+import React, { useState, useEffect, useRef } from 'react';
+import { Text, AppState, AppStateStatus } from 'react-native';
 
-import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-const Section: React.FC<{
-  title: string;
-}> = ({ children, title }) => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
+import { closeDb, openDb } from './src/db';
+import PlantOverview from './src/components/PlantOverview';
 
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+  const appState = useRef(AppState.currentState);
+  const [shouldShowApp, setShouldShowApp] = useState(false);
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  useEffect(() => {
+    console.log('App mounting');
+    const _connectToDb = async () => {
+      console.log('connecting to db...');
+      const canConnectToDb = await openDb();
+      if (canConnectToDb) {
+        console.log('connected!');
+        setShouldShowApp(true);
+      }
+    };
+    const _handleAppStateChange = (nextAppState: AppStateStatus) => {
+      console.log('App state changed: ', nextAppState);
 
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
+      if (nextAppState.match(/inactive|background/)) {
+        console.log('App will go to background -> disconnecting db');
+        closeDb();
+        setShouldShowApp(false);
+      } else if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === 'active'
+      ) {
+        console.log('App has come to the foreground -> reconnecting to db');
+        _connectToDb();
+      }
+
+      appState.current = nextAppState;
+    };
+
+    AppState.addEventListener('change', _handleAppStateChange);
+    _connectToDb();
+
+    return () => {
+      console.log('App unmounting');
+      AppState.removeEventListener('change', _handleAppStateChange);
+    };
+  }, []);
+
+  console.log('app ready: ', shouldShowApp);
+
+  return shouldShowApp ? <PlantOverview /> : <Text>Loading</Text>;
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
