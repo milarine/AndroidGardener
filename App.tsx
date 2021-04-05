@@ -34,16 +34,18 @@ const App = () => {
       console.log('App state changed: ', nextAppState);
 
       // if (nextAppState.match(/inactive|background/)) {
-      //   console.log('App will go to background -> disconnecting db');
-      //   closeDb();
-      //   setShouldShowApp(false);
-      // } else if (
-      //   appState.current.match(/inactive|background/) &&
-      //   nextAppState === 'active'
-      // ) {
-      //   console.log('App has come to the foreground -> reconnecting to db');
-      //   _connectToDb();
-      // }
+      if (nextAppState.match(/inactive/)) {
+        console.log('App will go to background -> disconnecting db');
+        closeDb();
+        setShouldShowApp(false);
+      } else if (
+        // appState.current.match(/inactive|background/) &&
+        appState.current.match(/inactive/) &&
+        nextAppState === 'active'
+      ) {
+        console.log('App has come to the foreground -> reconnecting to db');
+        _connectToDb();
+      }
 
       appState.current = nextAppState;
     };

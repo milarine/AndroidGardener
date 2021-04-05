@@ -18,9 +18,11 @@ const PlantView: ListRenderItem<Plant> = ({ item }: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1 / 3,
+    flex: 1 / 2,
     flexDirection: 'column',
     margin: 1,
+    alignItems: 'center',
+    backgroundColor: 'red',
   },
   image: {
     justifyContent: 'center',

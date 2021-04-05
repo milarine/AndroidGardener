@@ -24,8 +24,9 @@ function GridView<T extends Identifiable>({ items, renderItem }: Props<T>) {
       <FlatList
         data={items}
         renderItem={renderItem}
-        numColumns={3}
+        numColumns={2}
         keyExtractor={(item) => item.id}
+        columnWrapperStyle={styles.row}
       />
     </SafeAreaView>
   );
@@ -38,5 +39,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: 'white',
+  },
+  row: {
+    // flex: 1 / 2, // 1 / (numColumns)
   },
 });
