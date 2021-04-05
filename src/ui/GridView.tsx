@@ -19,13 +19,11 @@ type Props<T extends Identifiable> = {
 };
 
 function GridView<T extends Identifiable>({ items, renderItem }: Props<T>) {
-  console.log('grid items: ', items);
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
         data={items}
         renderItem={renderItem}
-        //Setting the number of column
         numColumns={3}
         keyExtractor={(item) => item.id}
       />

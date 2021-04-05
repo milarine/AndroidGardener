@@ -8,28 +8,30 @@ interface Props {
 }
 
 const PlantView: ListRenderItem<Plant> = ({ item }: Props) => {
-  // const PlantView: ListRenderItem<Plant> = ({ item }) => {
-  console.log('rendering plant view for: ', item.id);
-
   return (
     <View style={styles.container}>
-      <Text style={styles.imageThumbnail}>{item.name}</Text>
-      {/* <Image style={styles.imageThumbnail} source={{ uri: item.src }} /> */}
+      <Text style={styles.name}>{item.name}</Text>
+      <Image style={styles.image} source={{ uri: item.images[0] }} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1 / 3,
     flexDirection: 'column',
     margin: 1,
   },
-  imageThumbnail: {
-    color: Colors.highlight,
+  image: {
     justifyContent: 'center',
     alignItems: 'center',
     height: 100,
+    width: 100,
+  },
+  name: {
+    color: Colors.highlight,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
