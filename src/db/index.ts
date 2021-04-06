@@ -27,8 +27,12 @@ export const clearDb = (): void => {
   db.write(db.deleteAll);
 };
 
-export const savePlant = ({ id, ...values }: Plant): void => {
+export const savePlant = (plantToSave: Plant): void => {
+  const { id, created, lastWatered, images, name } = plantToSave;
+  const values = { created, lastWatered, images, name };
   let plant = id ? getPlant(id) : undefined;
+  console.log('plant to save', plant);
+
   if (!plant) {
     plant = createPlant(values);
   }
@@ -40,7 +44,9 @@ export const savePlant = ({ id, ...values }: Plant): void => {
   });
 };
 
-export const createPlant = (values: PlantInput): Plant | undefined => {
+export const createPlant = (
+  values: PlantInput,
+): (Plant & Realm.Object) | undefined => {
   let result;
   db.write(() => {
     result = db.create<Plant>('Plant', {
@@ -54,7 +60,7 @@ export const createPlant = (values: PlantInput): Plant | undefined => {
 export const deletePlant = (id: string): void =>
   db.write(() => db.delete(getPlant(id)));
 
-export const getPlant = (id: string): Plant | undefined =>
+export const getPlant = (id: string): (Plant & Realm.Object) | undefined =>
   db.objectForPrimaryKey('Plant', id);
 
 export const getPlantsSortedBy = (prop: keyof Plant): Realm.Results<Plant> => {
