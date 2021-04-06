@@ -1,14 +1,15 @@
 import { StackNavigationProp } from '@react-navigation/stack';
-import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, Button } from 'react-native';
-import { launchImageLibrary } from 'react-native-image-picker';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { TextInput } from 'react-native-paper';
 import { Formik } from 'formik';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import { StackParamList } from '../../App';
+import { StackParamList } from './Navigation';
 import { createPlant } from '../db';
 import { Colors } from '../ui/Colors';
+import ImageList from '../ui/ImageList';
 
 type AddPlantViewNavigationProp = StackNavigationProp<
   StackParamList,
@@ -20,8 +21,6 @@ type Props = {
 };
 
 const AddPlantView = ({ navigation }: Props) => {
-  const [image, setImage] = useState('');
-
   return (
     <Formik
       initialValues={{
@@ -31,42 +30,30 @@ const AddPlantView = ({ navigation }: Props) => {
         images: [],
       }}
       onSubmit={(values) => {
-        const createdPlant = createPlant({ ...values, images: [image] });
+        const createdPlant = createPlant(values);
         console.log('created new plant: ', createdPlant);
         navigation.navigate('PlantOverview');
       }}>
-      {({ handleSubmit, handleBlur, handleChange, values }) => {
+      {({ handleSubmit, handleBlur, handleChange, setFieldValue, values }) => {
         return (
           <>
             <View style={styles.container}>
               <TextInput
-                style={{ color: 'black' }}
+                style={{ backgroundColor: Colors.white }}
+                label="Name"
+                placeholder="Name"
+                placeholderTextColor={Colors.black}
+                mode="outlined"
                 onChangeText={handleChange('name')}
                 onBlur={handleBlur('name')}
                 value={values.name}
               />
-              <Button
-                title="Add image"
-                onPress={() => {
-                  launchImageLibrary(
-                    {
-                      mediaType: 'photo',
-                    },
-                    ({ didCancel, uri, fileName, errorCode }) => {
-                      if (errorCode) {
-                        console.log(
-                          'Could not launch image library. Error: ',
-                          errorCode,
-                        );
-                      }
-                      if (uri) {
-                        setImage(uri);
-                      }
-                    },
-                  );
-                }}>
-                Add image
-              </Button>
+              <ImageList
+                onChange={(images: string[]) => {
+                  setFieldValue('images', images);
+                }}
+                images={values.images}
+              />
             </View>
             <ActionButton
               buttonColor={Colors.highlight}
@@ -82,7 +69,6 @@ const AddPlantView = ({ navigation }: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
     padding: '2%',
   },
 });

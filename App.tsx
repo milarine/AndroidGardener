@@ -1,20 +1,23 @@
 import 'react-native-gesture-handler';
 import React, { useState, useEffect, useRef } from 'react';
-import { Text, AppState, AppStateStatus } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  DefaultTheme,
+  Provider as PaperProvider,
+  Text,
+} from 'react-native-paper';
+import { AppState, AppStateStatus } from 'react-native';
 
 import { closeDb, openDb } from './src/db';
-import PlantOverview from './src/components/PlantOverview';
-import AddPlantView from './src/components/AddPlantView';
+import Navigation from './src/components/Navigation';
 
-// https://reactnavigation.org/docs/typescript/
-export type StackParamList = {
-  PlantOverview: undefined;
-  AddPlantView: undefined;
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: 'tomato',
+    accent: 'yellow',
+  },
 };
-
-const Stack = createStackNavigator<StackParamList>();
 
 const App = () => {
   const appState = useRef(AppState.currentState);
@@ -33,13 +36,11 @@ const App = () => {
     const _handleAppStateChange = (nextAppState: AppStateStatus) => {
       console.log('App state changed: ', nextAppState);
 
-      // if (nextAppState.match(/inactive|background/)) {
       if (nextAppState.match(/inactive/)) {
-        console.log('App will go to background -> disconnecting db');
+        console.log('App will become inactive -> disconnecting db');
         closeDb();
         setShouldShowApp(false);
       } else if (
-        // appState.current.match(/inactive|background/) &&
         appState.current.match(/inactive/) &&
         nextAppState === 'active'
       ) {
@@ -61,15 +62,10 @@ const App = () => {
 
   console.log('app ready: ', shouldShowApp);
 
-  return shouldShowApp ? (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="PlantOverview" component={PlantOverview} />
-        <Stack.Screen name="AddPlantView" component={AddPlantView} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  ) : (
-    <Text>Loading</Text>
+  return (
+    <PaperProvider theme={theme}>
+      {shouldShowApp ? <Navigation /> : <Text>Loading</Text>}
+    </PaperProvider>
   );
 };
 

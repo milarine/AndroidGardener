@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, ListRenderItem } from 'react-native';
+import { Text } from 'react-native-paper';
+import { StyleSheet, View, Image, ListRenderItem } from 'react-native';
 import { Plant } from '../db/schema';
 import { Colors } from '../ui/Colors';
 
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     margin: 1,
     alignItems: 'center',
-    backgroundColor: 'red',
+    // backgroundColor: 'red',
   },
   image: {
     justifyContent: 'center',
