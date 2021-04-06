@@ -9,7 +9,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { StackParamList } from './Navigation';
 import { createPlant } from '../db';
 import { Colors } from '../ui/Colors';
-import ImageList from '../ui/ImageList';
+import ImageInput from '../ui/ImageInput';
 
 type AddPlantViewNavigationProp = StackNavigationProp<
   StackParamList,
@@ -48,7 +48,7 @@ const AddPlantView = ({ navigation }: Props) => {
                 onBlur={handleBlur('name')}
                 value={values.name}
               />
-              <ImageList
+              <ImageInput
                 onChange={(images: string[]) => {
                   setFieldValue('images', images);
                 }}

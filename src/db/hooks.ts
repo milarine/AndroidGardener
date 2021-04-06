@@ -12,7 +12,6 @@ export const usePlantsSortedBy = (prop: keyof Plant): Plant[] => {
   useEffect(() => {
     plantsRef.current = getPlantsSortedBy(prop);
     plantsRef.current.addListener((plantsInDb) => {
-      console.log('plant change: ', plantsInDb);
       setPlants(plantsInDb.map((plant) => plant));
       forceUpdate();
     });
