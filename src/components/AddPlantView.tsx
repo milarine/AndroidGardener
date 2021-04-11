@@ -70,6 +70,7 @@ const AddPlantView = ({ navigation }: Props) => {
 const styles = StyleSheet.create({
   container: {
     padding: '2%',
+    flex: 1,
   },
 });
 

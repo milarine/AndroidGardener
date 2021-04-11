@@ -45,7 +45,7 @@ const WaterPlantDialog: React.FC<Props> = ({ plant }) => {
               }}>
               Pick date
             </Button>
-            <Button onPress={waterPlant(new Date('2019-04-01'))}>Today</Button>
+            <Button onPress={waterPlant(new Date())}>Today</Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>
