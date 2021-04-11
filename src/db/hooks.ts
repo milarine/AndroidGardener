@@ -36,10 +36,14 @@ export const usePlant = (plantId: string): Plant | undefined => {
 
   useEffect(() => {
     plantRef.current = getPlant(plantId);
-    plantRef.current?.addListener((plantInDb) => {
-      console.log('plant changed: ', plantInDb);
-      setPlant(plantInDb);
-      forceUpdate();
+    plantRef.current?.addListener((plantInDb, changes) => {
+      if (changes.deleted) {
+        console.log('deleted plant');
+      } else {
+        console.log('plant changed: ', plantInDb);
+        setPlant(plantInDb);
+        forceUpdate();
+      }
     });
     return () => plantRef.current?.removeAllListeners();
   }, [forceUpdate, plantId]);
