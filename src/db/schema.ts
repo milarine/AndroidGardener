@@ -1,5 +1,5 @@
-export const schema = [
-  {
+export class PlantDbObject {
+  static schema = {
     name: 'Plant',
     primaryKey: 'id',
     properties: {
@@ -9,7 +9,22 @@ export const schema = [
       lastWatered: 'date',
       created: 'date',
     },
-  },
+  };
+}
+
+export const schema = [
+  PlantDbObject,
+  // {
+  //   name: 'Plant',
+  //   primaryKey: 'id',
+  //   properties: {
+  //     id: 'string',
+  //     name: 'string',
+  //     images: 'string[]', // the URI to the file
+  //     lastWatered: 'date',
+  //     created: 'date',
+  //   },
+  // },
 ];
 
 export interface PlantInput {

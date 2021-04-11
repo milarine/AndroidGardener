@@ -1,9 +1,14 @@
 import { useState, useEffect, useRef, useReducer } from 'react';
-import { getPlantsSortedBy } from '.';
+import { getPlant, getPlantsSortedBy } from '.';
 import { Plant } from './schema';
 
-export const usePlantsSortedBy = (prop: keyof Plant): Plant[] => {
+const useForceUpdate = () => {
   const [, forceUpdate] = useReducer((x) => x + 1, 0); // hack to force the UI to update: https://github.com/realm/realm-js/issues/2655#issuecomment-611575445
+  return forceUpdate;
+};
+
+export const usePlantsSortedBy = (prop: keyof Plant): Plant[] => {
+  const forceUpdate = useForceUpdate();
   const [plants, setPlants] = useState<Plant[]>(() =>
     getPlantsSortedBy(prop).map((plant) => plant),
   );
@@ -16,7 +21,28 @@ export const usePlantsSortedBy = (prop: keyof Plant): Plant[] => {
       forceUpdate();
     });
     return () => plantsRef.current?.removeAllListeners();
-  }, [prop]);
+  }, [prop, forceUpdate]);
 
   return plants;
+};
+
+export const usePlant = (plantId: string): Plant | undefined => {
+  const forceUpdate = useForceUpdate();
+  const [plant, setPlant] = useState<(Plant & Realm.Object) | undefined>(() =>
+    getPlant(plantId),
+  );
+
+  const plantRef = useRef<Plant & Realm.Object>();
+
+  useEffect(() => {
+    plantRef.current = getPlant(plantId);
+    plantRef.current?.addListener((plantInDb) => {
+      console.log('plant changed: ', plantInDb);
+      setPlant(plantInDb);
+      forceUpdate();
+    });
+    return () => plantRef.current?.removeAllListeners();
+  }, [forceUpdate, plantId]);
+
+  return plant;
 };

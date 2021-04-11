@@ -1,8 +1,8 @@
 import React from 'react';
-import { Card, Title, Paragraph, Button } from 'react-native-paper';
+import { Card, Title, Paragraph } from 'react-native-paper';
 import { Plant } from '../db/schema';
 import { formatDate } from '../utils/dates';
-import { savePlant } from '../db';
+import WaterPlantDialog from './WaterPlantDialog';
 
 interface Props {
   item: Plant;
@@ -22,20 +22,7 @@ const createPlantView: (
       /> */}
       <Card.Content>
         <Title>{item.name}</Title>
-        <Button
-          onPress={() => {
-            const { id, name, created, images } = item;
-            const plantToSave: Plant = {
-              id,
-              name,
-              created,
-              images,
-              lastWatered: new Date(),
-            };
-            savePlant(plantToSave);
-          }}>
-          Water
-        </Button>
+        <WaterPlantDialog plant={item} />
         <Paragraph>{`last watered on ${formatDate(
           item.lastWatered,
         )}`}</Paragraph>

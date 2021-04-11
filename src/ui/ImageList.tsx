@@ -8,7 +8,7 @@ interface Props {
 
 const ImageList: React.FC<Props> = ({ images }) => {
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <FlatList
         data={images}
         numColumns={2}
@@ -26,6 +26,10 @@ const ImageList: React.FC<Props> = ({ images }) => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
   image: {
     height: 200,
     width: 200,
