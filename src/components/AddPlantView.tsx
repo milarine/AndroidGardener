@@ -2,8 +2,6 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import ActionButton from 'react-native-action-button';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 
@@ -12,6 +10,7 @@ import { createPlant } from '../db';
 import { Colors } from '../ui/Colors';
 import ImageInput from '../ui/ImageInput';
 import ErrorText from '../ui/ErrorText';
+import FAB from '../ui/FAB';
 
 type AddPlantViewNavigationProp = StackNavigationProp<
   StackParamList,
@@ -76,11 +75,7 @@ const AddPlantView = ({ navigation }: Props) => {
                 images={values.images}
               />
             </View>
-            <ActionButton
-              buttonColor={Colors.highlight}
-              onPress={handleSubmit}
-              renderIcon={() => <Icon size={18} name="check" />}
-            />
+            <FAB onPress={handleSubmit} icon="check" />
           </>
         );
       }}
