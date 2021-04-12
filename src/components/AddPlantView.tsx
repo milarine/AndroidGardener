@@ -2,14 +2,16 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import { Formik } from 'formik';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Formik } from 'formik';
+import * as yup from 'yup';
 
 import { StackParamList } from './Navigation';
 import { createPlant } from '../db';
 import { Colors } from '../ui/Colors';
 import ImageInput from '../ui/ImageInput';
+import ErrorText from '../ui/ErrorText';
 
 type AddPlantViewNavigationProp = StackNavigationProp<
   StackParamList,
@@ -24,17 +26,33 @@ const AddPlantView = ({ navigation }: Props) => {
   return (
     <Formik
       initialValues={{
+        name: '',
         created: new Date(),
         lastWatered: new Date(),
-        name: '',
         images: [],
       }}
+      validationSchema={yup.object().shape({
+        name: yup.string().required('You have to enter a name.'),
+        created: yup.date().default(() => new Date()),
+        lastWatered: yup.date().default(() => new Date()),
+        images: yup
+          .array(yup.string())
+          .min(1, 'You have to add at least one image.'),
+      })}
       onSubmit={(values) => {
-        const createdPlant = createPlant(values);
-        console.log('created new plant: ', createdPlant);
+        createPlant(values);
         navigation.navigate('PlantOverview');
       }}>
-      {({ handleSubmit, handleBlur, handleChange, setFieldValue, values }) => {
+      {({
+        handleSubmit,
+        handleBlur,
+        handleChange,
+        setFieldTouched,
+        errors,
+        touched,
+        setFieldValue,
+        values,
+      }) => {
         return (
           <>
             <View style={styles.container}>
@@ -48,10 +66,13 @@ const AddPlantView = ({ navigation }: Props) => {
                 onBlur={handleBlur('name')}
                 value={values.name}
               />
+              {touched.name && errors.name && <ErrorText msg={errors.name} />}
               <ImageInput
                 onChange={(images: string[]) => {
                   setFieldValue('images', images);
+                  setFieldTouched('images');
                 }}
+                errors={touched.images && errors.images}
                 images={values.images}
               />
             </View>

@@ -2,14 +2,16 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { Button } from 'react-native-paper';
+import ErrorText from './ErrorText';
 import ImageList from './ImageList';
 
 interface Props {
   onChange: (images: string[]) => void;
   images: string[];
+  errors: string | string[] | undefined;
 }
 
-const ImageInput: React.FC<Props> = ({ onChange, images }) => {
+const ImageInput: React.FC<Props> = ({ onChange, images, errors }) => {
   return (
     <View style={styles.container}>
       <Button
@@ -33,6 +35,7 @@ const ImageInput: React.FC<Props> = ({ onChange, images }) => {
         }}>
         Add image
       </Button>
+      {errors && <ErrorText msg={errors} />}
       <ImageList images={images} />
     </View>
   );
@@ -41,6 +44,7 @@ const ImageInput: React.FC<Props> = ({ onChange, images }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
   },
 });
 
