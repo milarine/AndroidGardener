@@ -1,9 +1,8 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
-import { Button } from 'react-native-paper';
+import { Button, HelperText } from 'react-native-paper';
 import { ImageDto } from '../db/schema';
-import ErrorText from './ErrorText';
 import ImageList from './ImageList';
 
 interface Props {
@@ -38,7 +37,9 @@ const ImageInput: React.FC<Props> = ({ onChange, images, errors }) => {
           Add image
         </Button>
       </View>
-      {errors && <ErrorText msg={errors} />}
+      <HelperText type="error" visible={errors !== undefined}>
+        {errors}
+      </HelperText>
       <ImageList images={images} />
     </View>
   );

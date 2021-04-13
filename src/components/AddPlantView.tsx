@@ -1,7 +1,7 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { TextInput } from 'react-native-paper';
+import { HelperText, TextInput } from 'react-native-paper';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 
@@ -9,7 +9,6 @@ import { StackParamList } from './Navigation';
 import { createPlant } from '../db';
 import { Colors } from '../ui/Colors';
 import ImageInput from '../ui/ImageInput';
-import ErrorText from '../ui/ErrorText';
 import FAB from '../ui/FAB';
 import { ImageDto } from '../db/schema';
 
@@ -66,7 +65,11 @@ const AddPlantView = ({ navigation }: Props) => {
                 onBlur={handleBlur('name')}
                 value={values.name}
               />
-              {touched.name && errors.name && <ErrorText msg={errors.name} />}
+              <HelperText
+                type="error"
+                visible={touched.name && errors.name !== undefined}>
+                {errors.name}
+              </HelperText>
               <ImageInput
                 onChange={(images: ImageDto[]) => {
                   setFieldValue('images', images);
