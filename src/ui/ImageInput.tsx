@@ -13,30 +13,31 @@ interface Props {
 }
 
 const ImageInput: React.FC<Props> = ({ onChange, images, errors }) => {
-  console.log('image input received: ', images);
   return (
     <View style={styles.container}>
-      <Button
-        onPress={() => {
-          launchImageLibrary(
-            {
-              mediaType: 'photo',
-            },
-            ({ uri, errorCode }) => {
-              if (errorCode) {
-                console.log(
-                  'Could not launch image library. Error: ',
-                  errorCode,
-                );
-              }
-              if (uri) {
-                onChange([...images.slice(), { uri }]);
-              }
-            },
-          );
-        }}>
-        Add image
-      </Button>
+      <View style={styles.button}>
+        <Button
+          onPress={() => {
+            launchImageLibrary(
+              {
+                mediaType: 'photo',
+              },
+              ({ uri, errorCode }) => {
+                if (errorCode) {
+                  console.log(
+                    'Could not launch image library. Error: ',
+                    errorCode,
+                  );
+                }
+                if (uri) {
+                  onChange([...images.slice(), { uri }]);
+                }
+              },
+            );
+          }}>
+          Add image
+        </Button>
+      </View>
       {errors && <ErrorText msg={errors} />}
       <ImageList images={images} />
     </View>
@@ -46,6 +47,10 @@ const ImageInput: React.FC<Props> = ({ onChange, images, errors }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  button: {
+    marginTop: 10,
+    marginBottom: 10,
   },
 });
 
