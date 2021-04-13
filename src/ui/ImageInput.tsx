@@ -46,7 +46,6 @@ const ImageInput: React.FC<Props> = ({ onChange, images, errors }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
   },
 });
 
