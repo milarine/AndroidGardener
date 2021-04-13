@@ -32,12 +32,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   image: {
-    height: 200,
-    width: 200,
+    height: '100%',
+    width: '100%',
   },
   itemContainer: {
+    padding: 5,
     height: 200,
-    flex: 1 / 2,
+    width: '50%',
   },
 });
 
