@@ -5,7 +5,7 @@ export class Plant {
     properties: {
       id: 'string',
       name: 'string',
-      images: 'string[]', // the URI to the file
+      images: 'Image[]',
       lastWatered: 'date',
       created: 'date',
     },
@@ -13,13 +13,13 @@ export class Plant {
 
   public id: string;
   public name: string;
-  public images: string[]; // the URI to the file
+  public images: Image[];
   public lastWatered: Date;
   public created: Date;
 
   constructor(
     name: string,
-    images: string[],
+    images: Image[],
     lastWatered: Date,
     created: Date,
     id: string,
@@ -32,11 +32,37 @@ export class Plant {
   }
 }
 
-export const schema = [Plant];
+export class Image {
+  static schema = {
+    name: 'Image',
+    primaryKey: 'id',
+    properties: {
+      id: 'string',
+      uri: 'string',
+      date: 'date',
+    },
+  };
 
-export interface PlantInput {
+  public id: string;
+  public uri: string;
+  public date: Date;
+
+  constructor(id: string, uri: string, date: Date) {
+    this.id = id;
+    this.uri = uri;
+    this.date = date;
+  }
+}
+
+export const schema = [Plant, Image];
+
+export interface ImageDto {
+  uri: string;
+}
+
+export interface PlantDto {
   name: string;
-  images: string[]; // the URI to the file
+  images: ImageDto[];
   lastWatered: Date;
   created: Date;
 }

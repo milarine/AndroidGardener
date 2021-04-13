@@ -1,9 +1,10 @@
 import React from 'react';
 import { StyleSheet, View, Image, SafeAreaView } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
+import { ImageDto } from '../db/schema';
 
 interface Props {
-  images: string[];
+  images: ImageDto[];
 }
 
 const ImageList: React.FC<Props> = ({ images }) => {
@@ -16,7 +17,7 @@ const ImageList: React.FC<Props> = ({ images }) => {
         renderItem={({ item }) => {
           return (
             <View style={styles.itemContainer}>
-              <Image style={styles.image} source={{ uri: item }} />
+              <Image style={styles.image} source={{ uri: item.uri }} />
             </View>
           );
         }}
