@@ -28,7 +28,7 @@ const createPlantView: (
         )}`}</Paragraph>
       </Card.Content>
       {item.images && item.images.length > 0 && (
-        <Card.Cover source={{ uri: item.images[0] }} />
+        <Card.Cover source={{ uri: item.images[0].uri }} />
       )}
       {/* <Card.Actions>
         <Button>Ok</Button>

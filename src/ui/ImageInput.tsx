@@ -2,16 +2,18 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { Button } from 'react-native-paper';
+import { ImageDto } from '../db/schema';
 import ErrorText from './ErrorText';
 import ImageList from './ImageList';
 
 interface Props {
-  onChange: (images: string[]) => void;
-  images: string[];
+  onChange: (images: ImageDto[]) => void;
+  images: ImageDto[];
   errors: string | string[] | undefined;
 }
 
 const ImageInput: React.FC<Props> = ({ onChange, images, errors }) => {
+  console.log('image input received: ', images);
   return (
     <View style={styles.container}>
       <Button
@@ -28,7 +30,7 @@ const ImageInput: React.FC<Props> = ({ onChange, images, errors }) => {
                 );
               }
               if (uri) {
-                onChange([...images.slice(), uri]);
+                onChange([...images.slice(), { uri }]);
               }
             },
           );
@@ -44,7 +46,6 @@ const ImageInput: React.FC<Props> = ({ onChange, images, errors }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
   },
 });
 

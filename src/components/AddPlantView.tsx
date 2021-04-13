@@ -11,6 +11,7 @@ import { Colors } from '../ui/Colors';
 import ImageInput from '../ui/ImageInput';
 import ErrorText from '../ui/ErrorText';
 import FAB from '../ui/FAB';
+import { ImageDto } from '../db/schema';
 
 type AddPlantViewNavigationProp = StackNavigationProp<
   StackParamList,
@@ -35,7 +36,7 @@ const AddPlantView = ({ navigation }: Props) => {
         created: yup.date().default(() => new Date()),
         lastWatered: yup.date().default(() => new Date()),
         images: yup
-          .array(yup.string())
+          .array(yup.object())
           .min(1, 'You have to add at least one image.'),
       })}
       onSubmit={(values) => {
@@ -67,7 +68,7 @@ const AddPlantView = ({ navigation }: Props) => {
               />
               {touched.name && errors.name && <ErrorText msg={errors.name} />}
               <ImageInput
-                onChange={(images: string[]) => {
+                onChange={(images: ImageDto[]) => {
                   setFieldValue('images', images);
                   setFieldTouched('images');
                 }}
@@ -85,8 +86,8 @@ const AddPlantView = ({ navigation }: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: '2%',
     flex: 1,
+    padding: 10,
   },
 });
 

@@ -1,5 +1,5 @@
 import Realm from 'realm';
-import { Plant, PlantInput, schema } from './schema';
+import { Plant, PlantDto, schema } from './schema';
 
 const uid = (length: number = 15): string => {
   let str = '';
@@ -14,7 +14,7 @@ let db: Realm;
 export const openDb = async (): Promise<boolean> => {
   const realmConfig = {
     schema: schema,
-    deleteRealmIfMigrationNeeded: true,
+    schemaVersion: 1,
   };
   const connection = await Realm.open(realmConfig);
   db = connection;
@@ -45,12 +45,17 @@ export const savePlant = (plantToSave: Plant): void => {
 };
 
 export const createPlant = (
-  values: PlantInput,
+  values: PlantDto,
 ): (Plant & Realm.Object) | undefined => {
   let result;
   db.write(() => {
     result = db.create<Plant>('Plant', {
       ...values,
+      images: values.images.map((img) => ({
+        ...img,
+        id: uid(),
+        date: new Date(),
+      })),
       id: uid(),
     });
   });
