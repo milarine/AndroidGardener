@@ -40,7 +40,7 @@ export const usePlant = (plantId: string): Plant | undefined => {
       if (changes.deleted) {
         console.log('deleted plant');
       } else {
-        console.log('plant changed: ', plantInDb);
+        console.log('plant changed: ', changes);
         setPlant(plantInDb);
         forceUpdate();
       }

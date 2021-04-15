@@ -1,13 +1,16 @@
 import React from 'react';
-import { StyleSheet, View, Image, SafeAreaView } from 'react-native';
+import { StyleSheet, View, SafeAreaView, ImageBackground } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { ImageDto } from '../db/schema';
+import { IconButton } from 'react-native-paper';
+import { Image } from '../db/schema';
+import { Colors } from './Colors';
 
 interface Props {
-  images: ImageDto[];
+  images: Image[];
+  deleteImage: (image: Image) => void;
 }
 
-const ImageList: React.FC<Props> = ({ images }) => {
+const ImageList: React.FC<Props> = ({ images, deleteImage }) => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -17,7 +20,16 @@ const ImageList: React.FC<Props> = ({ images }) => {
         renderItem={({ item }) => {
           return (
             <View style={styles.itemContainer}>
-              <Image style={styles.image} source={{ uri: item.uri }} />
+              <ImageBackground style={styles.image} source={{ uri: item.uri }}>
+                <IconButton
+                  icon="close-circle-outline"
+                  size={30}
+                  color={Colors.white}
+                  onPress={() => {
+                    deleteImage(item);
+                  }}
+                />
+              </ImageBackground>
             </View>
           );
         }}

@@ -1,7 +1,7 @@
 import Realm from 'realm';
-import { Plant, PlantDto, schema } from './schema';
+import { Plant, PlantDto, Image, schema } from './schema';
 
-const uid = (length: number = 15): string => {
+export const uid = (length: number = 15): string => {
   let str = '';
   for (let i = 1; i < length + 1; i = i + 8) {
     str += Math.random().toString(36).substr(2, 10);
@@ -27,20 +27,14 @@ export const clearDb = (): void => {
   db.write(db.deleteAll);
 };
 
-export const savePlant = (plantToSave: Plant): void => {
+export const updatePlant = (plantToSave: Plant): void => {
   const { id, created, lastWatered, images, name } = plantToSave;
   const values = { created, lastWatered, images, name };
-  let plant = id ? getPlant(id) : undefined;
-  console.log('plant to save', plant);
-
-  if (!plant) {
-    plant = createPlant(values);
-  }
+  const plant = getPlant(id);
+  console.log('plant to update', plant);
 
   db.write(() => {
-    Object.assign(plant, values, {
-      created: new Date(values.created),
-    });
+    Object.assign(plant, values);
   });
 };
 
@@ -51,6 +45,7 @@ export const createPlant = (
   db.write(() => {
     result = db.create<Plant>('Plant', {
       ...values,
+      created: new Date(),
       images: values.images.map((img) => ({
         ...img,
         id: uid(),
@@ -65,9 +60,15 @@ export const createPlant = (
 export const deletePlant = (id: string): void =>
   db.write(() => db.delete(getPlant(id)));
 
+export const deleteImage = (id: string): void =>
+  db.write(() => db.delete(getImage(id)));
+
+export const getImage = (id: string): (Image & Realm.Object) | undefined =>
+  db.objectForPrimaryKey<Image>('Image', id);
+
 export const getPlant = (id: string): (Plant & Realm.Object) | undefined =>
   db.objectForPrimaryKey<Plant>('Plant', id);
 
 export const getPlantsSortedBy = (prop: keyof Plant): Realm.Results<Plant> => {
-  return db.objects<Plant>('Plant')?.sorted(prop, true);
+  return db.objects<Plant>('Plant')?.sorted(prop, false);
 };

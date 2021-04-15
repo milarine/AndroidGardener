@@ -2,16 +2,21 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { Button, HelperText } from 'react-native-paper';
-import { ImageDto } from '../db/schema';
+import { uid } from '../db';
+import { Image } from '../db/schema';
 import ImageList from './ImageList';
 
 interface Props {
-  onChange: (images: ImageDto[]) => void;
-  images: ImageDto[];
+  onChange: (images: Image[]) => void;
+  images: Image[];
   errors: string | string[] | undefined;
 }
 
 const ImageInput: React.FC<Props> = ({ onChange, images, errors }) => {
+  const deleteImage = (image: Image) => {
+    onChange(images.filter((img) => img.id !== image.id));
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.button}>
@@ -29,7 +34,10 @@ const ImageInput: React.FC<Props> = ({ onChange, images, errors }) => {
                   );
                 }
                 if (uri) {
-                  onChange([...images.slice(), { uri }]);
+                  onChange([
+                    ...images.slice(),
+                    { uri, date: new Date(), id: uid() },
+                  ]);
                 }
               },
             );
@@ -40,7 +48,7 @@ const ImageInput: React.FC<Props> = ({ onChange, images, errors }) => {
       <HelperText type="error" visible={errors !== undefined}>
         {errors}
       </HelperText>
-      <ImageList images={images} />
+      <ImageList images={images} deleteImage={deleteImage} />
     </View>
   );
 };

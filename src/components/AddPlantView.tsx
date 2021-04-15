@@ -1,13 +1,13 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { HelperText, TextInput } from 'react-native-paper';
+import { HelperText } from 'react-native-paper';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 
 import { StackParamList } from './Navigation';
 import { createPlant } from '../db';
-import { Colors } from '../ui/Colors';
+import TextInput from '../ui/TextInput';
 import ImageInput from '../ui/ImageInput';
 import FAB from '../ui/FAB';
 import { ImageDto } from '../db/schema';
@@ -56,11 +56,8 @@ const AddPlantView = ({ navigation }: Props) => {
           <>
             <View style={styles.container}>
               <TextInput
-                style={{ backgroundColor: Colors.white }}
                 label="Name"
                 placeholder="Name"
-                placeholderTextColor={Colors.black}
-                mode="outlined"
                 onChangeText={handleChange('name')}
                 onBlur={handleBlur('name')}
                 value={values.name}

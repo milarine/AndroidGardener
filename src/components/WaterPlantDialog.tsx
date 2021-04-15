@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View } from 'react-native';
 import { Button, Paragraph, Dialog, Portal } from 'react-native-paper';
-import { savePlant } from '../db';
+import { updatePlant } from '../db';
 import { Plant } from '../db/schema';
 
 type Props = {
@@ -24,7 +24,7 @@ const WaterPlantDialog: React.FC<Props> = ({ plant }) => {
       images,
       lastWatered,
     };
-    savePlant(plantToSave);
+    updatePlant(plantToSave);
     setVisible(false);
   };
 
