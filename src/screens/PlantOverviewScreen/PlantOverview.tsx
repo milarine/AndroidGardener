@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { usePlantsSortedBy } from '../db/hooks';
+import { usePlantsSortedBy } from '../../db/hooks';
 import createPlantView from './PlantView';
 import { StackScreenProps } from '@react-navigation/stack';
-import { StackParamList } from './Navigation';
-import { Plant } from '../db/schema';
+import { StackParamList } from '../../components/Navigation';
+import { Plant } from '../../db/schema';
 import { FlatList } from 'react-native-gesture-handler';
-import FloatingActionButton from '../ui/FAB';
+import FloatingActionButton from '../../ui/FAB';
 
 type Props = StackScreenProps<StackParamList, 'PlantOverview'>;
 

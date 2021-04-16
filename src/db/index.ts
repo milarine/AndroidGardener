@@ -72,3 +72,11 @@ export const getPlant = (id: string): (Plant & Realm.Object) | undefined =>
 export const getPlantsSortedBy = (prop: keyof Plant): Realm.Results<Plant> => {
   return db.objects<Plant>('Plant')?.sorted(prop, false);
 };
+
+export const addImage = (plant: Plant, uri: string) => {
+  db.write(() => {
+    Object.assign(plant, {
+      images: [...plant.images, { uri, id: uid(), date: new Date() }],
+    });
+  });
+};

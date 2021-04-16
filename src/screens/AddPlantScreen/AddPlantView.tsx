@@ -5,12 +5,12 @@ import { HelperText } from 'react-native-paper';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 
-import { StackParamList } from './Navigation';
-import { createPlant } from '../db';
-import TextInput from '../ui/TextInput';
-import ImageInput from '../ui/ImageInput';
-import FAB from '../ui/FAB';
-import { ImageDto } from '../db/schema';
+import { StackParamList } from '../../components/Navigation';
+import { createPlant } from '../../db';
+import TextInput from '../../ui/TextInput';
+import ImageInput from './ImageInput';
+import FAB from '../../ui/FAB';
+import { ImageDto } from '../../db/schema';
 
 type AddPlantViewNavigationProp = StackNavigationProp<
   StackParamList,

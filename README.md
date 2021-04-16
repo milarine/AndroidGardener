@@ -11,3 +11,4 @@ Run the app on your device [via USB](https://reactnative.dev/docs/running-on-dev
 - UI components: [React Native Paper](https://callstack.github.io/react-native-paper/)
   - [Icons](https://materialdesignicons.com/)
 - Persistence: [Realm](https://docs.mongodb.com/realm/sdk/react-native/)
+- Navigation: [React Navigation](https://reactnavigation.org/docs/getting-started)

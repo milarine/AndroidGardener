@@ -1,8 +1,8 @@
 import React from 'react';
 import { Card, Title, Paragraph } from 'react-native-paper';
-import { Plant } from '../db/schema';
-import { formatDate } from '../utils/dates';
-import WaterPlantDialog from './WaterPlantDialog';
+import { Plant } from '../../db/schema';
+import { formatDate } from '../../utils/dates';
+import WaterPlantDialog from '../../components/WaterPlantDialog';
 
 interface Props {
   item: Plant;
