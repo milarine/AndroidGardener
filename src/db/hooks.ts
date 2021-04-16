@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useReducer } from 'react';
+import { useEffect, useRef, useReducer } from 'react';
 import { getPlant, getPlantsSortedBy } from '.';
 import { Plant } from './schema';
 
@@ -9,44 +9,36 @@ const useForceUpdate = () => {
 
 export const usePlantsSortedBy = (prop: keyof Plant): Plant[] => {
   const forceUpdate = useForceUpdate();
-  const [plants, setPlants] = useState<Plant[]>(() =>
-    getPlantsSortedBy(prop).map((plant) => plant),
-  );
-  const plantsRef = useRef<Realm.Results<Plant>>();
+  const plantsRef = useRef<Realm.Results<Plant>>(getPlantsSortedBy(prop));
 
   useEffect(() => {
     plantsRef.current = getPlantsSortedBy(prop);
     plantsRef.current.addListener((plantsInDb) => {
-      setPlants(plantsInDb.map((plant) => plant));
+      console.log('plants in db changed: ', plantsInDb);
       forceUpdate();
     });
     return () => plantsRef.current?.removeAllListeners();
   }, [prop, forceUpdate]);
 
-  return plants;
+  return plantsRef.current.map((plant) => plant);
 };
 
 export const usePlant = (plantId: string): Plant | undefined => {
   const forceUpdate = useForceUpdate();
-  const [plant, setPlant] = useState<(Plant & Realm.Object) | undefined>(() =>
-    getPlant(plantId),
-  );
-
   const plantRef = useRef<Plant & Realm.Object>();
 
   useEffect(() => {
     plantRef.current = getPlant(plantId);
-    plantRef.current?.addListener((plantInDb, changes) => {
+    plantRef.current?.addListener((_, changes) => {
       if (changes.deleted) {
         console.log('deleted plant');
       } else {
         console.log('plant changed: ', changes);
-        setPlant(plantInDb);
         forceUpdate();
       }
     });
     return () => plantRef.current?.removeAllListeners();
   }, [forceUpdate, plantId]);
 
-  return plant;
+  return plantRef.current;
 };
