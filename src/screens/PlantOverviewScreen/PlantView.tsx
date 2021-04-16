@@ -2,7 +2,6 @@ import React from 'react';
 import { Card, Title, Paragraph } from 'react-native-paper';
 import { Plant } from '../../db/schema';
 import { formatDate } from '../../utils/dates';
-import WaterPlantDialog from '../../components/WaterPlantDialog';
 
 interface Props {
   item: Plant;
@@ -22,7 +21,6 @@ const createPlantView: (
       /> */}
       <Card.Content>
         <Title>{item.name}</Title>
-        <WaterPlantDialog plant={item} />
         <Paragraph>{`last watered on ${formatDate(
           item.lastWatered,
         )}`}</Paragraph>

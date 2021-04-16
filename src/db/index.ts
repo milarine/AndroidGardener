@@ -80,3 +80,12 @@ export const addImage = (plant: Plant, uri: string) => {
     });
   });
 };
+
+export const waterPlant = (plantId: string) => {
+  const plant = getPlant(plantId);
+  db.write(() => {
+    Object.assign(plant, {
+      lastWatered: new Date(),
+    });
+  });
+};
