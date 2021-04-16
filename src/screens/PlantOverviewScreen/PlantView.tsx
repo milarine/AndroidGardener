@@ -1,38 +1,56 @@
 import React from 'react';
-import { Card, Title, Paragraph } from 'react-native-paper';
+import {
+  Image,
+  ListRenderItemInfo,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { Headline, Text } from 'react-native-paper';
 import { Plant } from '../../db/schema';
+import { Colors } from '../../ui/Colors';
 import { formatDate } from '../../utils/dates';
-
-interface Props {
-  item: Plant;
-}
-
-// const LeftContent = (props) => <Avatar.Icon {...props} icon="folder" />;
 
 const createPlantView: (
   onPressItem: (plant: Plant) => void,
-) => ({ item }: Props) => JSX.Element = (onPressItem) => ({ item }: Props) => {
+) => ({ item }: ListRenderItemInfo<Plant>) => JSX.Element = (onPressItem) => ({
+  item,
+}: ListRenderItemInfo<Plant>) => {
   return (
-    <Card onPress={() => onPressItem(item)}>
-      {/* <Card.Title
-        title={item.name}
-        // subtitle="Card Subtitle"
-        // left={LeftContent}
-      /> */}
-      <Card.Content>
-        <Title>{item.name}</Title>
-        <Paragraph>{`last watered on ${formatDate(
-          item.lastWatered,
-        )}`}</Paragraph>
-      </Card.Content>
-      {item.images && item.images.length > 0 && (
-        <Card.Cover source={{ uri: item.images[0].uri }} />
-      )}
-      {/* <Card.Actions>
-        <Button>Ok</Button>
-      </Card.Actions> */}
-    </Card>
+    <TouchableOpacity onPress={() => onPressItem(item)} activeOpacity={1}>
+      <View style={styles.container}>
+        <View style={styles.item}>
+          {item.images && item.images.length > 0 && (
+            <Image style={styles.image} source={{ uri: item.images[0].uri }} />
+          )}
+        </View>
+        <View style={[styles.item, styles.infoBox]}>
+          <Headline>{item.name}</Headline>
+          <Text>{`last watered on ${formatDate(item.lastWatered)}`}</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    margin: 10,
+    backgroundColor: Colors.white,
+  },
+  item: {
+    height: 200,
+    width: '50%',
+  },
+  infoBox: {
+    padding: 5,
+  },
+  image: {
+    height: '100%',
+    width: '100%',
+  },
+});
 
 export default createPlantView;
