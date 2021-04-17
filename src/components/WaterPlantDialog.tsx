@@ -11,38 +11,36 @@ type Props = {
 };
 
 const WaterPlantDialog: React.FC<Props> = ({ plantId }) => {
-  const [visible, setVisible] = useState(false);
-  const [show, setShow] = useState(false);
+  const [isDialogVisible, setIsDialogVisible] = useState(false);
+  const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
 
   const onChange = (_: Event, selectedDate: Date | undefined) => {
     if (selectedDate) {
       waterPlant(plantId, selectedDate);
+      setIsDatePickerVisible(Platform.OS === 'ios');
+      hideDialog();
+    } else {
+      hideDatePicker();
     }
-    setShow(Platform.OS === 'ios');
-    hideDialog();
   };
 
-  const showDialog = () => setVisible(true);
-
-  const hideDialog = () => setVisible(false);
+  const showDialog = () => setIsDialogVisible(true);
+  const hideDialog = () => setIsDialogVisible(false);
+  const showDatePicker = () => setIsDatePickerVisible(true);
+  const hideDatePicker = () => setIsDatePickerVisible(false);
 
   return (
     <View>
       <Button onPress={showDialog}>Water</Button>
       <Portal>
-        <Dialog visible={visible} onDismiss={hideDialog}>
+        <Dialog visible={isDialogVisible} onDismiss={hideDialog}>
           <Dialog.Title>Water plant</Dialog.Title>
           <Dialog.Content>
             <Paragraph>When did you last water this plant?</Paragraph>
           </Dialog.Content>
           <Dialog.Actions>
             <Button onPress={hideDialog}>Cancel</Button>
-            <Button
-              onPress={() => {
-                setShow(true);
-              }}>
-              Pick date
-            </Button>
+            <Button onPress={showDatePicker}>Pick date</Button>
             <Button
               onPress={() => {
                 waterPlant(plantId);
@@ -53,7 +51,7 @@ const WaterPlantDialog: React.FC<Props> = ({ plantId }) => {
           </Dialog.Actions>
         </Dialog>
       </Portal>
-      {show && (
+      {isDatePickerVisible && (
         <DateTimePicker
           value={new Date()}
           is24Hour={true}
