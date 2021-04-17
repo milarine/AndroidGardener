@@ -66,6 +66,8 @@ export const dateDifferenceString = (date1: Date, date2: Date): string => {
   const days = daysBetween(date1, date2);
   if (days === 0) {
     return 'today';
+  } else if (days === 1) {
+    return '1 day ago';
   } else if (days === 7) {
     return '1 week ago';
   } else if (days % 7 === 0) {

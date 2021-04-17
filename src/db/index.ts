@@ -81,11 +81,11 @@ export const addImage = (plant: Plant, uri: string) => {
   });
 };
 
-export const waterPlant = (plantId: string) => {
+export const waterPlant = (plantId: string, date?: Date) => {
   const plant = getPlant(plantId);
   db.write(() => {
     Object.assign(plant, {
-      lastWatered: new Date(),
+      lastWatered: date ?? new Date(),
     });
   });
 };

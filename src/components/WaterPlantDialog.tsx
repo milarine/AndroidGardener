@@ -1,32 +1,30 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { Platform, View } from 'react-native';
 import { Button, Paragraph, Dialog, Portal } from 'react-native-paper';
-import { updatePlant } from '../db';
-import { Plant } from '../db/schema';
+import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
+
+import { waterPlant } from '../db';
+import { useState } from 'react';
 
 type Props = {
-  plant: Plant;
+  plantId: string;
 };
 
-const WaterPlantDialog: React.FC<Props> = ({ plant }) => {
-  const [visible, setVisible] = React.useState(false);
+const WaterPlantDialog: React.FC<Props> = ({ plantId }) => {
+  const [visible, setVisible] = useState(false);
+  const [show, setShow] = useState(false);
+
+  const onChange = (_: Event, selectedDate: Date | undefined) => {
+    if (selectedDate) {
+      waterPlant(plantId, selectedDate);
+    }
+    setShow(Platform.OS === 'ios');
+    hideDialog();
+  };
 
   const showDialog = () => setVisible(true);
 
   const hideDialog = () => setVisible(false);
-
-  const waterPlant = (lastWatered: Date) => () => {
-    const { id, name, created, images } = plant;
-    const plantToSave: Plant = {
-      id,
-      name,
-      created,
-      images,
-      lastWatered,
-    };
-    updatePlant(plantToSave);
-    setVisible(false);
-  };
 
   return (
     <View>
@@ -41,14 +39,29 @@ const WaterPlantDialog: React.FC<Props> = ({ plant }) => {
             <Button onPress={hideDialog}>Cancel</Button>
             <Button
               onPress={() => {
-                console.log('TODO');
+                setShow(true);
               }}>
               Pick date
             </Button>
-            <Button onPress={waterPlant(new Date())}>Today</Button>
+            <Button
+              onPress={() => {
+                waterPlant(plantId);
+                hideDialog();
+              }}>
+              Today
+            </Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>
+      {show && (
+        <DateTimePicker
+          value={new Date()}
+          is24Hour={true}
+          display="default"
+          maximumDate={new Date()}
+          onChange={onChange}
+        />
+      )}
     </View>
   );
 };

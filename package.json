@@ -11,6 +11,7 @@
     "lint:fix": "npm run lint -- --fix"
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "^3.4.6",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.4",

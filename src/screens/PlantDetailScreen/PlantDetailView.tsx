@@ -49,7 +49,7 @@ const PlantDetailView: React.FC<Props> = ({
             addImage(plant, uri);
           }}
         />
-        <WaterPlantDialog plant={plant} />
+        <WaterPlantDialog plantId={plant.id} />
       </View>
     </View>
   );
