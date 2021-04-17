@@ -9,7 +9,7 @@ import {
 import { Headline, Text } from 'react-native-paper';
 import { Plant } from '../../db/schema';
 import { Colors } from '../../ui/Colors';
-import { formatDate } from '../../utils/dates';
+import { dateDifferenceString } from '../../utils/dates';
 
 const createPlantView: (
   onPressItem: (plant: Plant) => void,
@@ -26,7 +26,14 @@ const createPlantView: (
         </View>
         <View style={[styles.item, styles.infoBox]}>
           <Headline>{item.name}</Headline>
-          <Text>{`last watered on ${formatDate(item.lastWatered)}`}</Text>
+          <Text>{`last watered ${dateDifferenceString(
+            item.lastWatered,
+            new Date(),
+          )}`}</Text>
+          <Text>{`added to your garden ${dateDifferenceString(
+            item.created,
+            new Date(),
+          )}`}</Text>
         </View>
       </View>
     </TouchableOpacity>

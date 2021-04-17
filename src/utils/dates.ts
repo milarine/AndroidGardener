@@ -55,3 +55,21 @@ export const formatDate = (date: Date): string => {
 
   return [day, month, year].join(' ');
 };
+
+const daysBetween = (date1: Date, date2: Date): number => {
+  const diffMs = Math.abs(date1.getTime() - date2.getTime());
+  const diffDays = diffMs / (1000 * 60 * 60 * 24);
+  return Math.round(diffDays);
+};
+
+export const dateDifferenceString = (date1: Date, date2: Date): string => {
+  const days = daysBetween(date1, date2);
+  if (days === 0) {
+    return 'today';
+  } else if (days === 7) {
+    return '1 week ago';
+  } else if (days % 7 === 0) {
+    return `${days / 7} weeks ago`;
+  }
+  return `${days} days ago`;
+};
