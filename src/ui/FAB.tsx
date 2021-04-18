@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { FAB } from 'react-native-paper';
-import { Colors } from './Colors';
+import { FAB, useTheme } from 'react-native-paper';
 
 interface Props {
   onPress: () => void;
@@ -9,12 +8,18 @@ interface Props {
 }
 
 const FloatingActionButton: React.FC<Props> = ({ onPress, icon }) => {
-  return <FAB style={styles.fab} onPress={onPress} icon={icon} />;
+  const { colors } = useTheme();
+  return (
+    <FAB
+      style={[styles.fab, { backgroundColor: colors.accent }]}
+      onPress={onPress}
+      icon={icon}
+    />
+  );
 };
 
 const styles = StyleSheet.create({
   fab: {
-    backgroundColor: Colors.highlight,
     position: 'absolute',
     margin: 16,
     right: 0,

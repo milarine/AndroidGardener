@@ -31,7 +31,6 @@ const TextInput: React.FC<Props> = ({
       style={[styles.input, style]}
       label={label}
       placeholder={placeholder ?? label}
-      placeholderTextColor={Colors.black}
       mode="outlined"
       onChangeText={onChangeText}
       onBlur={onBlur}
