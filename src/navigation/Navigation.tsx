@@ -25,7 +25,7 @@ export const Navigation = () => {
         <Stack.Screen
           name="PlantOverview"
           component={PlantOverview}
-          options={{ title: 'Your garden' }}
+          options={{ title: 'Your garden', headerShown: false }}
         />
         <Stack.Screen
           name="AddPlantView"
