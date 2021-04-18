@@ -13,9 +13,9 @@ export const uid = (length: number = 15): string => {
 let db: Realm;
 
 export const openDb = async (): Promise<boolean> => {
-  const realmConfig = {
+  const realmConfig: Realm.Configuration = {
     schema: schema,
-    schemaVersion: 1,
+    schemaVersion: 2,
   };
   const connection = await Realm.open(realmConfig);
   db = connection;

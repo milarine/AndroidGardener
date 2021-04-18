@@ -1,5 +1,30 @@
+export class Garden {
+  static schema: Realm.ObjectSchema = {
+    name: 'Garden',
+    primaryKey: 'id',
+    properties: {
+      id: 'string',
+      name: 'string',
+      plants: 'Plant[]',
+      created: 'date',
+    },
+  };
+
+  public id: string;
+  public name: string;
+  public plants: Plant[];
+  public created: Date;
+
+  constructor(id: string, name: string, created: Date, plants: Plant[]) {
+    this.id = id;
+    this.name = name;
+    this.created = created;
+    this.plants = plants;
+  }
+}
+
 export class Plant {
-  static schema = {
+  static schema: Realm.ObjectSchema = {
     name: 'Plant',
     primaryKey: 'id',
     properties: {
@@ -8,6 +33,11 @@ export class Plant {
       images: 'Image[]',
       lastWatered: 'date',
       created: 'date',
+      garden: {
+        type: 'linkingObjects',
+        objectType: 'Garden',
+        property: 'plants',
+      },
     },
   };
 
@@ -16,6 +46,7 @@ export class Plant {
   public images: Image[];
   public lastWatered: Date;
   public created: Date;
+  public garden: Realm.Results<Garden>;
 
   constructor(
     name: string,
@@ -23,17 +54,19 @@ export class Plant {
     lastWatered: Date,
     created: Date,
     id: string,
+    garden: Realm.Results<Garden>,
   ) {
     this.id = id;
     this.name = name;
     this.images = images;
     this.lastWatered = lastWatered;
     this.created = created;
+    this.garden = garden;
   }
 }
 
 export class Image {
-  static schema = {
+  static schema: Realm.ObjectSchema = {
     name: 'Image',
     primaryKey: 'id',
     properties: {
@@ -54,7 +87,7 @@ export class Image {
   }
 }
 
-export const schema = [Plant, Image];
+export const schema = [Garden, Plant, Image];
 
 export interface ImageDto {
   uri: string;
