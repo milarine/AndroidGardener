@@ -1,10 +1,11 @@
 import * as React from 'react';
+import { useState } from 'react';
+
+import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
 import { Platform, View } from 'react-native';
 import { Button, Paragraph, Dialog, Portal } from 'react-native-paper';
-import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
 
 import { waterPlant } from '../db';
-import { useState } from 'react';
 
 type Props = {
   plantId: string;

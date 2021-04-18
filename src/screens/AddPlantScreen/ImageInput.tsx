@@ -1,6 +1,8 @@
 import React from 'react';
+
 import { StyleSheet, View } from 'react-native';
 import { HelperText } from 'react-native-paper';
+
 import { uid } from '../../db';
 import { Image } from '../../db/schema';
 import AddImageButton from '../../ui/AddImageButton';

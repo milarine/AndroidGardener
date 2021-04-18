@@ -1,12 +1,6 @@
 import React from 'react';
-import { RowMap, SwipeListView } from 'react-native-swipe-list-view';
-import { StackScreenProps } from '@react-navigation/stack';
 
-import { usePlantsSortedBy } from '../../db/hooks';
-import createPlantView from './PlantView';
-import { StackParamList } from '../../components/Navigation';
-import { Plant } from '../../db/schema';
-import FloatingActionButton from '../../ui/FAB';
+import { StackScreenProps } from '@react-navigation/stack';
 import {
   Animated,
   StyleSheet,
@@ -15,7 +9,14 @@ import {
   ListRenderItemInfo,
 } from 'react-native';
 import { Text } from 'react-native-paper';
+import { RowMap, SwipeListView } from 'react-native-swipe-list-view';
+
+import { StackParamList } from '../../components/Navigation';
 import { waterPlant } from '../../db';
+import { usePlantsSortedBy } from '../../db/hooks';
+import { Plant } from '../../db/schema';
+import FloatingActionButton from '../../ui/FAB';
+import createPlantView from './PlantView';
 
 type Props = StackScreenProps<StackParamList, 'PlantOverview'>;
 

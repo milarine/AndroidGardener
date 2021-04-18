@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   FlatList,
   StyleSheet,
@@ -7,6 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { IconButton } from 'react-native-paper';
+
 import { Image } from '../db/schema';
 import { Colors } from './Colors';
 

@@ -1,11 +1,12 @@
 import React from 'react';
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import PlantOverview from '../screens/PlantOverviewScreen/PlantOverview';
 import AddPlantView from '../screens/AddPlantScreen/AddPlantView';
-import PlantDetailView from '../screens/PlantDetailScreen/PlantDetailView';
 import ImageFullScreenView from '../screens/ImageFullScreen/ImageFullScreenView';
+import PlantDetailView from '../screens/PlantDetailScreen/PlantDetailView';
+import PlantOverview from '../screens/PlantOverviewScreen/PlantOverview';
 
 // https://reactnavigation.org/docs/typescript/
 export type StackParamList = {

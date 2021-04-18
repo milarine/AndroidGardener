@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   Image,
   ListRenderItemInfo,
@@ -7,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import { Headline, Text } from 'react-native-paper';
+
 import { Plant } from '../../db/schema';
 import { Colors } from '../../ui/Colors';
 import { dateDifferenceString } from '../../utils/dates';

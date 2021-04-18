@@ -1,6 +1,8 @@
-import type { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
+
+import type { StackScreenProps } from '@react-navigation/stack';
 import { View, Image, StyleSheet, Text, Dimensions } from 'react-native';
+
 import { StackParamList } from '../../components/Navigation';
 import { useImage } from '../../db/hooks';
 

@@ -1,14 +1,15 @@
 import 'react-native-gesture-handler';
 import React, { useState, useEffect, useRef } from 'react';
+
+import { AppState, AppStateStatus } from 'react-native';
 import {
   DefaultTheme,
   Provider as PaperProvider,
   Text,
 } from 'react-native-paper';
-import { AppState, AppStateStatus } from 'react-native';
 
-import { closeDb, openDb } from './src/db';
 import Navigation from './src/components/Navigation';
+import { closeDb, openDb } from './src/db';
 import { Colors } from './src/ui/Colors';
 
 const theme = {

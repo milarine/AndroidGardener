@@ -2,6 +2,7 @@
 // https://aboutreact.com/example-of-gridview-using-flatlist-in-react-native/
 
 import React from 'react';
+
 import {
   SafeAreaView,
   StyleSheet,

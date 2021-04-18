@@ -1,16 +1,17 @@
-import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
+
+import { StackNavigationProp } from '@react-navigation/stack';
+import { Formik } from 'formik';
 import { StyleSheet, View } from 'react-native';
 import { HelperText } from 'react-native-paper';
-import { Formik } from 'formik';
 import * as yup from 'yup';
 
 import { StackParamList } from '../../components/Navigation';
 import { createPlant } from '../../db';
+import { ImageDto } from '../../db/schema';
+import FAB from '../../ui/FAB';
 import TextInput from '../../ui/TextInput';
 import ImageInput from './ImageInput';
-import FAB from '../../ui/FAB';
-import { ImageDto } from '../../db/schema';
 
 type AddPlantViewNavigationProp = StackNavigationProp<
   StackParamList,

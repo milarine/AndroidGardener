@@ -1,4 +1,5 @@
 import React from 'react';
+
 import type {
   TextInputFocusEventData,
   NativeSyntheticEvent,
@@ -7,6 +8,7 @@ import type {
 import type { StyleProp } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { TextInput as Input } from 'react-native-paper';
+
 import { Colors } from './Colors';
 
 interface Props {
