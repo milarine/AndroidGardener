@@ -1,6 +1,6 @@
 import { useEffect, useRef, useReducer } from 'react';
 
-import { Image, Plant, getImage, getPlant, getPlantsSortedBy } from 'db/index';
+import { Image, Plant, getImage, getPlant, getPlantsSortedBy } from 'db';
 
 const useForceUpdate = () => {
   const [, forceUpdate] = useReducer((x) => x + 1, 0); // hack to force the UI to update: https://github.com/realm/realm-js/issues/2655#issuecomment-611575445

@@ -10,9 +10,9 @@ import {
   ImageList,
   WaterPlantDialog,
 } from 'components/index';
-import { addImage, deleteImage, usePlant } from 'db/index';
-import { StackParamList } from 'navigation/index';
-import { formatDate } from 'utils/index';
+import { addImage, deleteImage, usePlant } from 'db';
+import { StackParamList } from 'navigation';
+import { formatDate } from 'utils';
 
 import PlantName from './PlantName';
 

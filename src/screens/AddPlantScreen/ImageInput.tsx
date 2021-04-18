@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import { HelperText } from 'react-native-paper';
 
 import { AddImageButton, ImageList } from 'components/index';
-import { Image, uid } from 'db/index';
+import { Image, uid } from 'db';
 
 interface Props {
   onChange: (images: Image[]) => void;

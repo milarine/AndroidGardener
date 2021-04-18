@@ -11,9 +11,9 @@ import {
 import { Text } from 'react-native-paper';
 import { RowMap, SwipeListView } from 'react-native-swipe-list-view';
 
-import { FloatingActionButton } from 'components/index';
-import { Plant, waterPlant, usePlantsSortedBy } from 'db/index';
-import { StackParamList } from 'navigation/index';
+import { FloatingActionButton } from 'components';
+import { Plant, waterPlant, usePlantsSortedBy } from 'db';
+import { StackParamList } from 'navigation';
 
 import createPlantView from './PlantView';
 

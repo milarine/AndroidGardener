@@ -6,9 +6,9 @@ import { StyleSheet, View } from 'react-native';
 import { HelperText } from 'react-native-paper';
 import * as yup from 'yup';
 
-import { FloatingActionButton as FAB, TextInput } from 'components/index';
-import { ImageDto, createPlant } from 'db/index';
-import { StackParamList } from 'navigation/index';
+import { FloatingActionButton as FAB, TextInput } from 'components';
+import { ImageDto, createPlant } from 'db';
+import { StackParamList } from 'navigation';
 
 import ImageInput from './ImageInput';
 

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { View } from 'react-native';
 import { Button, Paragraph, Dialog, Portal } from 'react-native-paper';
 
-import { deletePlant } from 'db/index';
+import { deletePlant } from 'db';
 
 type Props = {
   plantId: string;

@@ -4,7 +4,7 @@ import { View, StyleSheet } from 'react-native';
 import { Headline, IconButton } from 'react-native-paper';
 
 import { TextInput } from 'components/index';
-import { updatePlant, Plant } from 'db/index';
+import { updatePlant, Plant } from 'db';
 
 interface Props {
   plant: Plant;

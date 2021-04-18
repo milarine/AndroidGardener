@@ -3,8 +3,8 @@ import React from 'react';
 import type { StackScreenProps } from '@react-navigation/stack';
 import { View, Image, StyleSheet, Text, Dimensions } from 'react-native';
 
-import { useImage } from 'db/index';
-import { StackParamList } from 'navigation/index';
+import { useImage } from 'db';
+import { StackParamList } from 'navigation';
 
 type Props = StackScreenProps<StackParamList, 'ImageFullScreenView'>;
 

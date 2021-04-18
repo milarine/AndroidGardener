@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 import { IconButton } from 'react-native-paper';
 
-import { Image } from 'db/index';
-import { Colors } from 'theme/index';
+import { Image } from 'db';
+import { Colors } from 'theme';
 
 interface Props {
   images: Image[];

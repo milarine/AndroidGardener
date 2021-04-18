@@ -9,9 +9,9 @@ import {
   Text,
 } from 'react-native-paper';
 
-import { closeDb, openDb } from 'db/index';
-import { Colors } from 'theme/index';
-import { Navigation } from 'navigation/index';
+import { closeDb, openDb } from 'db';
+import { Colors } from 'theme';
+import { Navigation } from 'navigation';
 
 const theme = {
   ...DefaultTheme,

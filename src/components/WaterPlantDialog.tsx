@@ -5,7 +5,7 @@ import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
 import { Platform, View } from 'react-native';
 import { Button, Paragraph, Dialog, Portal } from 'react-native-paper';
 
-import { waterPlant } from 'db/index';
+import { waterPlant } from 'db';
 
 type Props = {
   plantId: string;

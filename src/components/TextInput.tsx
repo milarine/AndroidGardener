@@ -9,7 +9,7 @@ import type { StyleProp } from 'react-native';
 import { StyleSheet } from 'react-native';
 import { TextInput as Input } from 'react-native-paper';
 
-import { Colors } from 'theme/index';
+import { Colors } from 'theme';
 
 interface Props {
   label: string;
