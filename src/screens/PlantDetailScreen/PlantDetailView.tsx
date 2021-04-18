@@ -1,4 +1,4 @@
-import { StackScreenProps } from '@react-navigation/stack';
+import type { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
@@ -40,6 +40,9 @@ const PlantDetailView: React.FC<Props> = ({
         images={plant.images}
         deleteImage={(image) => {
           deleteImage(image.id);
+        }}
+        navigateToFullScreenImage={(imageId) => {
+          navigation.navigate('ImageFullScreenView', { imageId });
         }}
       />
       <View style={styles.actions}>

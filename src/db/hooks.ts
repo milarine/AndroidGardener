@@ -1,6 +1,6 @@
 import { useEffect, useRef, useReducer } from 'react';
-import { getPlant, getPlantsSortedBy } from '.';
-import { Plant } from './schema';
+import { getImage, getPlant, getPlantsSortedBy } from '.';
+import { Image, Plant } from './schema';
 
 const useForceUpdate = () => {
   const [, forceUpdate] = useReducer((x) => x + 1, 0); // hack to force the UI to update: https://github.com/realm/realm-js/issues/2655#issuecomment-611575445
@@ -42,3 +42,25 @@ export const usePlant = (plantId: string): Plant | undefined => {
 
   return plantRef.current;
 };
+
+export const useImage = (imageId: string): Image | undefined => {
+  const forceUpdate = useForceUpdate();
+  const imageRef = useRef<Image & Realm.Object>();
+
+  useEffect(() => {
+    imageRef.current = getImage(imageId);
+    imageRef.current?.addListener((_, changes) => {
+      if (changes.deleted) {
+        console.log('deleted image');
+      } else {
+        console.log('image changed: ', changes);
+        forceUpdate();
+      }
+    });
+    return () => imageRef.current?.removeAllListeners();
+  }, [forceUpdate, imageId]);
+
+  return imageRef.current;
+};
+
+// TODO: refactor using generics!!!

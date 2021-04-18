@@ -1,6 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, SafeAreaView, ImageBackground } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
+import {
+  FlatList,
+  StyleSheet,
+  SafeAreaView,
+  ImageBackground,
+  TouchableOpacity,
+} from 'react-native';
 import { IconButton } from 'react-native-paper';
 import { Image } from '../db/schema';
 import { Colors } from './Colors';
@@ -8,9 +13,14 @@ import { Colors } from './Colors';
 interface Props {
   images: Image[];
   deleteImage: (image: Image) => void;
+  navigateToFullScreenImage?: (imageId: string) => void;
 }
 
-const ImageList: React.FC<Props> = ({ images, deleteImage }) => {
+const ImageList: React.FC<Props> = ({
+  images,
+  deleteImage,
+  navigateToFullScreenImage,
+}) => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -19,7 +29,13 @@ const ImageList: React.FC<Props> = ({ images, deleteImage }) => {
         keyExtractor={(item, index) => `key-${index}`}
         renderItem={({ item }) => {
           return (
-            <View style={styles.itemContainer}>
+            <TouchableOpacity
+              style={styles.itemContainer}
+              onPress={() => {
+                if (navigateToFullScreenImage) {
+                  navigateToFullScreenImage(item.id);
+                }
+              }}>
               <ImageBackground style={styles.image} source={{ uri: item.uri }}>
                 <IconButton
                   icon="close-circle-outline"
@@ -30,7 +46,7 @@ const ImageList: React.FC<Props> = ({ images, deleteImage }) => {
                   }}
                 />
               </ImageBackground>
-            </View>
+            </TouchableOpacity>
           );
         }}
       />
