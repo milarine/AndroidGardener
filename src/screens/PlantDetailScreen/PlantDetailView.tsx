@@ -4,14 +4,16 @@ import type { StackScreenProps } from '@react-navigation/stack';
 import { View, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
 
-import DeletePlantDialog from '../../components/DeletePlantDialog';
-import { StackParamList } from '../../components/Navigation';
-import WaterPlantDialog from '../../components/WaterPlantDialog';
-import { addImage, deleteImage } from '../../db';
-import { usePlant } from '../../db/hooks';
-import AddImageButton from '../../ui/AddImageButton';
-import ImageList from '../../ui/ImageList';
-import { formatDate } from '../../utils/dates';
+import {
+  AddImageButton,
+  DeletePlantDialog,
+  ImageList,
+  WaterPlantDialog,
+} from 'components/index';
+import { addImage, deleteImage, usePlant } from 'db/index';
+import { StackParamList } from 'navigation/index';
+import { formatDate } from 'utils/index';
+
 import PlantName from './PlantName';
 
 type Props = StackScreenProps<StackParamList, 'PlantDetailView'>;

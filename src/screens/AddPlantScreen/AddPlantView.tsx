@@ -6,11 +6,10 @@ import { StyleSheet, View } from 'react-native';
 import { HelperText } from 'react-native-paper';
 import * as yup from 'yup';
 
-import { StackParamList } from '../../components/Navigation';
-import { createPlant } from '../../db';
-import { ImageDto } from '../../db/schema';
-import FAB from '../../ui/FAB';
-import TextInput from '../../ui/TextInput';
+import { FloatingActionButton as FAB, TextInput } from 'components/index';
+import { ImageDto, createPlant } from 'db/index';
+import { StackParamList } from 'navigation/index';
+
 import ImageInput from './ImageInput';
 
 type AddPlantViewNavigationProp = StackNavigationProp<

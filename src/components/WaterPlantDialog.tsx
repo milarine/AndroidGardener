@@ -5,13 +5,13 @@ import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
 import { Platform, View } from 'react-native';
 import { Button, Paragraph, Dialog, Portal } from 'react-native-paper';
 
-import { waterPlant } from '../db';
+import { waterPlant } from 'db/index';
 
 type Props = {
   plantId: string;
 };
 
-const WaterPlantDialog: React.FC<Props> = ({ plantId }) => {
+export const WaterPlantDialog: React.FC<Props> = ({ plantId }) => {
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [isDatePickerVisible, setIsDatePickerVisible] = useState(false);
 
@@ -64,5 +64,3 @@ const WaterPlantDialog: React.FC<Props> = ({ plantId }) => {
     </View>
   );
 };
-
-export default WaterPlantDialog;

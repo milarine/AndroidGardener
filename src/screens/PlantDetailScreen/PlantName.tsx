@@ -3,9 +3,8 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Headline, IconButton } from 'react-native-paper';
 
-import { updatePlant } from '../../db';
-import { Plant } from '../../db/schema';
-import TextInput from '../../ui/TextInput';
+import { TextInput } from 'components/index';
+import { updatePlant, Plant } from 'db/index';
 
 interface Props {
   plant: Plant;

@@ -3,14 +3,14 @@ import * as React from 'react';
 import { View } from 'react-native';
 import { Button, Paragraph, Dialog, Portal } from 'react-native-paper';
 
-import { deletePlant } from '../db';
+import { deletePlant } from 'db/index';
 
 type Props = {
   plantId: string;
   goBack: () => void;
 };
 
-const DeletePlantDialog: React.FC<Props> = ({ plantId, goBack }) => {
+export const DeletePlantDialog: React.FC<Props> = ({ plantId, goBack }) => {
   const [visible, setVisible] = React.useState(false);
 
   const showDialog = () => setVisible(true);
@@ -43,5 +43,3 @@ const DeletePlantDialog: React.FC<Props> = ({ plantId, goBack }) => {
     </View>
   );
 };
-
-export default DeletePlantDialog;

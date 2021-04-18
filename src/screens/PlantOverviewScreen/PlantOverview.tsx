@@ -11,11 +11,10 @@ import {
 import { Text } from 'react-native-paper';
 import { RowMap, SwipeListView } from 'react-native-swipe-list-view';
 
-import { StackParamList } from '../../components/Navigation';
-import { waterPlant } from '../../db';
-import { usePlantsSortedBy } from '../../db/hooks';
-import { Plant } from '../../db/schema';
-import FloatingActionButton from '../../ui/FAB';
+import { FloatingActionButton } from 'components/index';
+import { Plant, waterPlant, usePlantsSortedBy } from 'db/index';
+import { StackParamList } from 'navigation/index';
+
 import createPlantView from './PlantView';
 
 type Props = StackScreenProps<StackParamList, 'PlantOverview'>;

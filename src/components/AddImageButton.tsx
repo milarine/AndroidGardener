@@ -7,7 +7,7 @@ interface Props {
   addImage: (uri: string) => void;
 }
 
-const AddImageButton: React.FC<Props> = ({ addImage }) => {
+export const AddImageButton: React.FC<Props> = ({ addImage }) => {
   return (
     <Button
       onPress={() => {
@@ -29,5 +29,3 @@ const AddImageButton: React.FC<Props> = ({ addImage }) => {
     </Button>
   );
 };
-
-export default AddImageButton;

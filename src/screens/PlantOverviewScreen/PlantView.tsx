@@ -9,9 +9,9 @@ import {
 } from 'react-native';
 import { Headline, Text } from 'react-native-paper';
 
-import { Plant } from '../../db/schema';
-import { Colors } from '../../ui/Colors';
-import { dateDifferenceString } from '../../utils/dates';
+import { Plant } from 'db/index';
+import { Colors } from 'theme/index';
+import { dateDifferenceString } from 'utils/index';
 
 const createPlantView: (
   onPressItem: (plant: Plant) => void,

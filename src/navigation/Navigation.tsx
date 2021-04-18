@@ -3,10 +3,10 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import AddPlantView from '../screens/AddPlantScreen/AddPlantView';
-import ImageFullScreenView from '../screens/ImageFullScreen/ImageFullScreenView';
-import PlantDetailView from '../screens/PlantDetailScreen/PlantDetailView';
-import PlantOverview from '../screens/PlantOverviewScreen/PlantOverview';
+import AddPlantView from 'screens/AddPlantScreen/AddPlantView';
+import ImageFullScreenView from 'screens/ImageFullScreen/ImageFullScreenView';
+import PlantDetailView from 'screens/PlantDetailScreen/PlantDetailView';
+import PlantOverview from 'screens/PlantOverviewScreen/PlantOverview';
 
 // https://reactnavigation.org/docs/typescript/
 export type StackParamList = {
@@ -18,7 +18,7 @@ export type StackParamList = {
 
 const Stack = createStackNavigator<StackParamList>();
 
-const Navigation = () => {
+export const Navigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -43,5 +43,3 @@ const Navigation = () => {
     </NavigationContainer>
   );
 };
-
-export default Navigation;

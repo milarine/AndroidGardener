@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 import 'react-native-gesture-handler';
 import React, { useState, useEffect, useRef } from 'react';
 
@@ -8,9 +9,9 @@ import {
   Text,
 } from 'react-native-paper';
 
-import Navigation from './src/components/Navigation';
-import { closeDb, openDb } from './src/db';
-import { Colors } from './src/ui/Colors';
+import { closeDb, openDb } from 'db/index';
+import { Colors } from 'theme/index';
+import { Navigation } from 'navigation/index';
 
 const theme = {
   ...DefaultTheme,

@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  extends: '@react-native-community',
+  extends: ['@react-native-community', 'plugin:import/typescript'],
   plugins: ['import'],
   rules: {
     'import/order': [
@@ -22,5 +22,12 @@ module.exports = {
         },
       },
     ],
+  },
+  settings: {
+    'import/resolver': {
+      node: {
+        paths: 'src',
+      },
+    },
   },
 };

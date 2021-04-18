@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 import { IconButton } from 'react-native-paper';
 
-import { Image } from '../db/schema';
-import { Colors } from './Colors';
+import { Image } from 'db/index';
+import { Colors } from 'theme/index';
 
 interface Props {
   images: Image[];
@@ -18,7 +18,7 @@ interface Props {
   navigateToFullScreenImage?: (imageId: string) => void;
 }
 
-const ImageList: React.FC<Props> = ({
+export const ImageList: React.FC<Props> = ({
   images,
   deleteImage,
   navigateToFullScreenImage,
@@ -71,5 +71,3 @@ const styles = StyleSheet.create({
     width: '50%',
   },
 });
-
-export default ImageList;

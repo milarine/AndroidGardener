@@ -8,7 +8,7 @@ interface Props {
   icon: string;
 }
 
-const FloatingActionButton: React.FC<Props> = ({ onPress, icon }) => {
+export const FloatingActionButton: React.FC<Props> = ({ onPress, icon }) => {
   const { colors } = useTheme();
   return (
     <FAB
@@ -27,5 +27,3 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
 });
-
-export default FloatingActionButton;
