@@ -1,6 +1,6 @@
 import Realm from 'realm';
 
-import { Plant, PlantDto, Image, schema } from './schema';
+import { Plant, PlantDto, Image, schema, Garden, GardenDto } from './schema';
 
 export const uid = (length: number = 15): string => {
   let str = '';
@@ -58,6 +58,31 @@ export const createPlant = (
   return result;
 };
 
+export const createGarden = (
+  values: GardenDto,
+): (Garden & Realm.Object) | undefined => {
+  let result;
+
+  db.write(() => {
+    result = db.create<Garden>('Garden', {
+      ...values,
+      plants: values.plants.map((plant) => ({
+        ...plant,
+        images: plant.images.map((img) => ({
+          ...img,
+          id: uid(),
+          date: new Date(),
+        })),
+        id: uid(),
+        created: new Date(),
+      })),
+      created: new Date(),
+      id: uid(),
+    });
+  });
+  return result;
+};
+
 export const deletePlant = (id: string): void =>
   db.write(() => db.delete(getPlant(id)));
 
@@ -73,6 +98,46 @@ export const getPlant = (id: string): (Plant & Realm.Object) | undefined =>
 export const getPlantsSortedBy = (prop: keyof Plant): Realm.Results<Plant> => {
   return db.objects<Plant>('Plant')?.sorted(prop, false);
 };
+
+export const getGardens = (): Realm.Results<Garden> => {
+  return db.objects<Garden>('Garden');
+};
+
+export const getDbObject = <T>(
+  id: string,
+  table: string,
+): (T & Realm.Object) | undefined => db.objectForPrimaryKey<T>(table, id);
+
+// export const getPlantsOfGardenSortedBy = (
+//   gardenId: string | undefined,
+//   prop: keyof Plant,
+// ): Plant[] => {
+//   return gardenId
+//     ? db
+//         .objectForPrimaryKey<Garden>('Garden', gardenId)
+//         ?.plants?.sort((plant1, plant2) => {
+//           return 1;
+//         }) || []
+//     : [];
+// };
+
+// export const getDefaultGarden = (): (Garden & Realm.Object) | undefined => {
+//   const gardens = db.objects<Garden>('Garden');
+//   if (gardens && gardens.length > 0) {
+//     return gardens[0];
+//   }
+//   let newGarden;
+//   const plants = getPlantsSortedBy('id');
+//   db.write(() => {
+//     newGarden = db.create<Garden>('Garden', {
+//       created: new Date(),
+//       id: uid(),
+//       name: 'Your first garden',
+//       plants: plants.map((plant) => plant),
+//     });
+//   });
+//   return newGarden;
+// };
 
 export const addImage = (plant: Plant, uri: string) => {
   db.write(() => {

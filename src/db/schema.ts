@@ -46,7 +46,6 @@ export class Plant {
   public images: Image[];
   public lastWatered: Date;
   public created: Date;
-  public garden: Realm.Results<Garden>;
 
   constructor(
     name: string,
@@ -54,14 +53,12 @@ export class Plant {
     lastWatered: Date,
     created: Date,
     id: string,
-    garden: Realm.Results<Garden>,
   ) {
     this.id = id;
     this.name = name;
     this.images = images;
     this.lastWatered = lastWatered;
     this.created = created;
-    this.garden = garden;
   }
 }
 
@@ -98,4 +95,9 @@ export interface PlantDto {
   images: ImageDto[];
   lastWatered: Date;
   created: Date;
+}
+
+export interface GardenDto {
+  name: string;
+  plants: PlantDto[];
 }

@@ -1,13 +1,7 @@
 import React from 'react';
 
 import { StackScreenProps } from '@react-navigation/stack';
-import {
-  Animated,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  ListRenderItemInfo,
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import {
   Headline,
   IconButton,
@@ -15,45 +9,27 @@ import {
   Title,
   useTheme,
 } from 'react-native-paper';
-import { RowMap, SwipeListView } from 'react-native-swipe-list-view';
 
 import { FloatingActionButton } from 'components';
-import { Plant, waterPlant, usePlantsSortedBy } from 'db';
+import { Plant, useDefaultGarden } from 'db';
 import { StackParamList } from 'navigation';
 
-import createPlantView from './PlantView';
+import PlantOverview from './PlantOverview';
 
-type Props = StackScreenProps<StackParamList, 'PlantOverview'>;
+type Props = StackScreenProps<StackParamList, 'GardenOverview'>;
 
-const PlantOverview = ({ navigation }: Props) => {
-  const plants = usePlantsSortedBy('lastWatered');
+const GardenOverview = ({ navigation }: Props) => {
   const { colors } = useTheme();
+  const garden = useDefaultGarden();
+
+  if (!garden) {
+    return <Text>error</Text>;
+  }
+  const plantIds = garden.plants.map((plant) => plant.id);
 
   const onPressItem = (plant: Plant) => {
     navigation.navigate('PlantDetailView', { plantId: plant.id });
   };
-
-  const renderHiddenItem = (
-    { item }: ListRenderItemInfo<Plant>,
-    rowMap: RowMap<Plant>,
-  ) => (
-    <TouchableOpacity
-      style={styles.hiddenItemContainer}
-      onPress={() => {
-        Animated.timing(new Animated.Value(1), {
-          toValue: 0,
-          duration: 200,
-          useNativeDriver: true,
-        }).start(() => {
-          waterPlant(item.id);
-          rowMap[item.id].closeRow();
-        });
-      }}>
-      <View style={styles.waterText}>
-        <Text style={styles.waterText}>Water</Text>
-      </View>
-    </TouchableOpacity>
-  );
 
   return (
     <>
@@ -78,16 +54,8 @@ const PlantOverview = ({ navigation }: Props) => {
             styles.gardenContainer,
             { backgroundColor: colors.background },
           ]}>
-          <Headline style={styles.gardenTitle}>garden.name</Headline>
-          <SwipeListView
-            data={plants}
-            disableRightSwipe
-            renderItem={createPlantView(onPressItem)}
-            renderHiddenItem={renderHiddenItem}
-            leftOpenValue={75}
-            rightOpenValue={-150}
-            keyExtractor={(item) => item.id}
-          />
+          <Headline style={styles.gardenTitle}>{garden.name}</Headline>
+          <PlantOverview onPressPlant={onPressItem} plantIds={plantIds} />
           <FloatingActionButton
             onPress={() => {
               navigation.navigate('AddPlantView');
@@ -121,15 +89,6 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   gardenTitle: { padding: 10 },
-  hiddenItemContainer: {
-    alignItems: 'flex-end',
-    flex: 1,
-    justifyContent: 'center',
-  },
-  waterText: {
-    marginRight: 20,
-    fontSize: 30,
-  },
 });
 
-export default PlantOverview;
+export default GardenOverview;

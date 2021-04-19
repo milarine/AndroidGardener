@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {
+  Animated,
   Image,
   ListRenderItemInfo,
   StyleSheet,
@@ -8,19 +9,40 @@ import {
   View,
 } from 'react-native';
 import { Headline, Text } from 'react-native-paper';
+import { RowMap } from 'react-native-swipe-list-view';
 
-import { Plant } from 'db';
+import { Plant, waterPlant } from 'db';
 import { Colors } from 'theme';
 import { dateDifferenceString } from 'utils';
 
-const createPlantView: (
+export const renderHiddenItem = (
+  { item }: ListRenderItemInfo<Plant>,
+  rowMap: RowMap<Plant>,
+) => (
+  <TouchableOpacity
+    style={[styles.hiddenItemContainer, styles.container]}
+    onPress={() => {
+      Animated.timing(new Animated.Value(1), {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: true,
+      }).start(() => {
+        waterPlant(item.id);
+        rowMap[item.id].closeRow();
+      });
+    }}>
+    <Text style={styles.waterText}>Water</Text>
+  </TouchableOpacity>
+);
+
+export const createPlantView: (
   onPressItem: (plant: Plant) => void,
 ) => ({ item }: ListRenderItemInfo<Plant>) => JSX.Element = (onPressItem) => ({
   item,
 }: ListRenderItemInfo<Plant>) => {
   return (
     <TouchableOpacity
-      style={styles.container}
+      style={[styles.plantContainer, styles.container]}
       onPress={() => onPressItem(item)}
       activeOpacity={1}>
       {item.images && item.images.length > 0 && (
@@ -44,12 +66,9 @@ const createPlantView: (
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  plantContainer: {
     flexDirection: 'row',
-    margin: 10,
     backgroundColor: Colors.white,
-    borderRadius: 10,
     elevation: 10,
   },
   item: {
@@ -68,6 +87,17 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
   },
+  container: {
+    flex: 1,
+    margin: 10,
+    borderRadius: 10,
+  },
+  hiddenItemContainer: {
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+  },
+  waterText: {
+    marginRight: 20,
+    fontSize: 30,
+  },
 });
-
-export default createPlantView;

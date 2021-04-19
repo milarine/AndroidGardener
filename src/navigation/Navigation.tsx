@@ -4,13 +4,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import AddPlantView from 'screens/AddPlantScreen/AddPlantView';
+import GardenOverview from 'screens/GardenViewScreen/GardenOverview';
 import ImageFullScreenView from 'screens/ImageFullScreen/ImageFullScreenView';
 import PlantDetailView from 'screens/PlantDetailScreen/PlantDetailView';
-import PlantOverview from 'screens/PlantOverviewScreen/PlantOverview';
 
 // https://reactnavigation.org/docs/typescript/
 export type StackParamList = {
-  PlantOverview: undefined;
+  GardenOverview: undefined;
   AddPlantView: undefined;
   PlantDetailView: { plantId: string };
   ImageFullScreenView: { imageId: string };
@@ -23,8 +23,8 @@ export const Navigation = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="PlantOverview"
-          component={PlantOverview}
+          name="GardenOverview"
+          component={GardenOverview}
           options={{ title: 'Your garden', headerShown: false }}
         />
         <Stack.Screen
