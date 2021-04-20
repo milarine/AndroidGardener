@@ -64,11 +64,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    height: '100%',
     flex: 1,
   },
   bottomContainer: {
-    // flex: 1,
     flexDirection: 'column',
   },
   mainActionContainer: {
@@ -85,14 +83,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   otheractionsContainer: {
-    position: 'absolute',
-    bottom: 0,
-    zIndex: 1,
     width: '100%',
     height: 60,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 15,
-    paddingVertical: 10,
   },
 });

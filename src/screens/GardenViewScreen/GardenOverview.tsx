@@ -74,8 +74,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    // TODO: improve! necessary to show entire plant list
-    paddingBottom: 60,
   },
   title: {
     flex: 1,
