@@ -4,17 +4,16 @@ import type { StackScreenProps } from '@react-navigation/stack';
 import { View, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
 
+import EditableHeadline from 'components/EditableHeadline';
 import {
   AddImageButton,
   DeletePlantDialog,
   ImageList,
   WaterPlantDialog,
 } from 'components/index';
-import { addImage, deleteImage, usePlant } from 'db';
+import { addImage, deleteImage, Plant, updatePlant, usePlant } from 'db';
 import { StackParamList } from 'navigation';
 import { formatDate } from 'utils';
-
-import PlantName from './PlantName';
 
 type Props = StackScreenProps<StackParamList, 'PlantDetailView'>;
 
@@ -36,7 +35,21 @@ const PlantDetailView: React.FC<Props> = ({
 
   return (
     <View style={styles.container}>
-      <PlantName plant={plant} />
+      <EditableHeadline
+        initialValue={plant.name}
+        label="Plant name"
+        onSave={(value) => {
+          const { id, lastWatered, created, images } = plant;
+          const plantToSave: Plant = {
+            id,
+            name: value,
+            created,
+            images,
+            lastWatered,
+          };
+          updatePlant(plantToSave);
+        }}
+      />
       <Text>{`was last watered on ${formatDate(plant.lastWatered)}`}</Text>
       <Text>{`and added to your garden on ${formatDate(plant.created)}`}</Text>
       <ImageList

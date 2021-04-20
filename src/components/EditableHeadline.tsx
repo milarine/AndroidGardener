@@ -4,15 +4,26 @@ import { View, StyleSheet } from 'react-native';
 import { Headline, IconButton } from 'react-native-paper';
 
 import { TextInput } from 'components/index';
-import { updatePlant, Plant } from 'db';
 
 interface Props {
-  plant: Plant;
+  textColor?: string;
+  iconColorEdit?: string;
+  iconColorSave?: string;
+  initialValue: string;
+  label: string;
+  onSave: (value: string) => void;
 }
 
-const PlantName: React.FC<Props> = ({ plant }) => {
+const EditableHeadline: React.FC<Props> = ({
+  textColor,
+  iconColorEdit,
+  iconColorSave,
+  initialValue,
+  label,
+  onSave,
+}) => {
   const [isEditingTitle, setIsEditingTitle] = useState(false);
-  const [name, setName] = useState(plant.name);
+  const [value, setValue] = useState(initialValue);
 
   const icon = isEditingTitle ? 'check' : 'pencil';
 
@@ -20,27 +31,20 @@ const PlantName: React.FC<Props> = ({ plant }) => {
     <View style={styles.container}>
       {isEditingTitle ? (
         <TextInput
-          style={styles.input}
-          label={'Name'}
-          value={name}
-          onChangeText={(text) => setName(text)}
+          style={[styles.input]}
+          label={label}
+          value={value}
+          onChangeText={(text) => setValue(text)}
         />
       ) : (
-        <Headline>{plant.name}</Headline>
+        <Headline style={{ color: textColor }}>{value}</Headline>
       )}
       <IconButton
         icon={icon}
+        color={isEditingTitle ? iconColorSave : iconColorEdit}
         onPress={() => {
           if (isEditingTitle) {
-            const { id, lastWatered, created, images } = plant;
-            const plantToSave: Plant = {
-              id,
-              name,
-              created,
-              images,
-              lastWatered,
-            };
-            updatePlant(plantToSave);
+            onSave(value);
           }
           setIsEditingTitle(!isEditingTitle);
         }}
@@ -61,4 +65,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PlantName;
+export default EditableHeadline;

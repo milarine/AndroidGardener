@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackScreenProps } from '@react-navigation/stack';
 import { Formik } from 'formik';
 import { StyleSheet, View } from 'react-native';
 import { HelperText } from 'react-native-paper';
@@ -12,16 +12,14 @@ import { StackParamList } from 'navigation';
 
 import ImageInput from './ImageInput';
 
-type AddPlantViewNavigationProp = StackNavigationProp<
-  StackParamList,
-  'AddPlantView'
->;
+type Props = StackScreenProps<StackParamList, 'AddPlantView'>;
 
-type Props = {
-  navigation: AddPlantViewNavigationProp;
-};
-
-const AddPlantView = ({ navigation }: Props) => {
+const AddPlantView: React.FC<Props> = ({
+  navigation,
+  route: {
+    params: { gardenId },
+  },
+}) => {
   return (
     <Formik
       initialValues={{
@@ -39,8 +37,9 @@ const AddPlantView = ({ navigation }: Props) => {
           .min(1, 'You have to add at least one image.'),
       })}
       onSubmit={(values) => {
-        createPlant(values);
-        navigation.navigate('PlantOverview');
+        // TODO: fix
+        createPlant({ ...values, gardenId });
+        navigation.navigate('GardenView');
       }}>
       {({
         handleSubmit,
@@ -57,7 +56,6 @@ const AddPlantView = ({ navigation }: Props) => {
             <View style={styles.container}>
               <TextInput
                 label="Name"
-                placeholder="Name"
                 onChangeText={handleChange('name')}
                 onBlur={handleBlur('name')}
                 value={values.name}

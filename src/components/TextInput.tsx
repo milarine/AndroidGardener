@@ -6,14 +6,12 @@ import type {
   TextStyle,
 } from 'react-native';
 import type { StyleProp } from 'react-native';
-import { StyleSheet } from 'react-native';
 import { TextInput as Input } from 'react-native-paper';
 
 import { Colors } from 'theme';
 
 interface Props {
   label: string;
-  placeholder?: string;
   onChangeText: (text: string) => void;
   onBlur?: (e: NativeSyntheticEvent<TextInputFocusEventData>) => void;
   value: string;
@@ -22,7 +20,6 @@ interface Props {
 
 export const TextInput: React.FC<Props> = ({
   label,
-  placeholder,
   onChangeText,
   onBlur,
   value,
@@ -30,19 +27,13 @@ export const TextInput: React.FC<Props> = ({
 }) => {
   return (
     <Input
-      style={[styles.input, style]}
+      style={[style, { backgroundColor: Colors.dark }]}
       label={label}
-      placeholder={placeholder ?? label}
       mode="outlined"
+      theme={{ colors: { primary: Colors.light, text: Colors.lightest } }}
       onChangeText={onChangeText}
       onBlur={onBlur}
       value={value}
     />
   );
 };
-
-const styles = StyleSheet.create({
-  input: {
-    backgroundColor: Colors.white,
-  },
-});

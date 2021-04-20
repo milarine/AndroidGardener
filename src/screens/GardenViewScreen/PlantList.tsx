@@ -11,7 +11,7 @@ interface Props {
   onPressPlant: (plant: Plant) => void;
 }
 
-const PlantOverview = ({ plantIds, onPressPlant }: Props) => {
+const PlantList = ({ plantIds, onPressPlant }: Props) => {
   const plants = usePlantsSortedBy('lastWatered').filter((plant) =>
     plantIds.includes(plant.id),
   );
@@ -29,4 +29,4 @@ const PlantOverview = ({ plantIds, onPressPlant }: Props) => {
   );
 };
 
-export default PlantOverview;
+export default PlantList;

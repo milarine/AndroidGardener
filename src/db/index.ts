@@ -6,6 +6,7 @@ export {
   deleteImage,
   deletePlant,
   openDb,
+  updateGarden,
   updatePlant,
   waterPlant,
 } from './db';

@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   mainActionContainer: {
     position: 'absolute',
     alignSelf: 'center',
-    backgroundColor: '#f8f4f4',
+    backgroundColor: Colors.background,
     width: 70,
     height: 70,
     borderRadius: 35,

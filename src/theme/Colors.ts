@@ -4,4 +4,5 @@ export enum Colors {
   light = '#419E5C',
   lightest = '#DEFF35',
   white = '#ffffff',
+  background = '#f8f4f4',
 }

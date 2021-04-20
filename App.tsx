@@ -18,21 +18,21 @@ const theme = {
   colors: {
     ...DefaultTheme.colors,
     // - primary color for your app, usually your brand color.
-    primary: Colors.darkest,
+    primary: Colors.dark,
     // - secondary color for your app which complements the primary color.
     accent: Colors.lightest,
     // - background color for pages, such as lists.
-    // background: Colors.light,
+    background: Colors.background,
     // - background color for elements containing content, such as cards.
-    surface: Colors.light,
+    // surface: Colors.dark,
     // - text color for content.
     // text: '',
     // - color for disabled elements.
     // disabled: '',
     // - color for placeholder text, such as input placeholder.
-    placeholder: Colors.dark,
+    placeholder: Colors.lightest,
     // - color for backdrops of various components such as modals.
-    // backdrop: '',
+    // backdrop: Colors.dark,
   },
 };
 

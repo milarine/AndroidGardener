@@ -93,6 +93,7 @@ export interface PlantDto {
   images: ImageDto[];
   lastWatered: Date;
   created: Date;
+  gardenId: string;
 }
 
 export interface GardenDto {
