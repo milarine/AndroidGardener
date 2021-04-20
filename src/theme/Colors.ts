@@ -1,8 +1,7 @@
 export enum Colors {
-  darkest = '#002E36',
-  dark = '#00A36A',
-  medium = '#79F07E',
-  light = '#CEF744',
-  lightest = '#FFEE0B',
+  darkest = '#2F5038',
+  dark = '#356944',
+  light = '#419E5C',
+  lightest = '#DEFF35',
   white = '#ffffff',
 }
