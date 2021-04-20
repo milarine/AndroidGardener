@@ -10,7 +10,7 @@ import {
   useTheme,
 } from 'react-native-paper';
 
-import { FloatingActionButton } from 'components';
+import { BottomActions } from 'components';
 import { Plant, useDefaultGarden } from 'db';
 import { StackParamList } from 'navigation';
 
@@ -32,7 +32,15 @@ const GardenOverview = ({ navigation }: Props) => {
   };
 
   return (
-    <>
+    <BottomActions
+      leftAction={() => console.log('left action')}
+      leftActionIcon="spa"
+      mainAction={() => {
+        navigation.navigate('AddPlantView');
+      }}
+      mainActionIcon="spa"
+      rightAction={() => console.log('right action')}
+      rightActionIcon="spa">
       <View style={[styles.container, { backgroundColor: colors.primary }]}>
         <View style={styles.titleContainer}>
           <View style={styles.title}>
@@ -56,20 +64,19 @@ const GardenOverview = ({ navigation }: Props) => {
           ]}>
           <Headline style={styles.gardenTitle}>{garden.name}</Headline>
           <PlantOverview onPressPlant={onPressItem} plantIds={plantIds} />
-          <FloatingActionButton
-            onPress={() => {
-              navigation.navigate('AddPlantView');
-            }}
-            icon="spa"
-          />
         </View>
       </View>
-    </>
+    </BottomActions>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, alignItems: 'center' },
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    // TODO: improve! necessary to show entire plant list
+    paddingBottom: 60,
+  },
   title: {
     flex: 1,
     alignItems: 'center',
