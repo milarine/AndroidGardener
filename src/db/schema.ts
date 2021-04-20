@@ -84,8 +84,6 @@ export class Image {
   }
 }
 
-export const schema = [Garden, Plant, Image];
-
 export interface ImageDto {
   uri: string;
 }
