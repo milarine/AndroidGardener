@@ -13,7 +13,7 @@ const useDbObject = <T>(id: string, table: string): T | undefined => {
   const dbObjectRef = useRef<T & Realm.Object>();
 
   useEffect(() => {
-    dbObjectRef.current = getDbObject(table, id);
+    dbObjectRef.current = getDbObject(id, table);
     dbObjectRef.current?.addListener((_, changes) => {
       if (changes.deleted) {
         console.log(`deleted ${table} ${id}`);
