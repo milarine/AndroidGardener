@@ -68,19 +68,25 @@ export const useImage = (imageId: string): Image | undefined => {
   return useDbObject<Image>(imageId, 'Image');
 };
 
-export const useDefaultGarden = (): Garden | undefined => {
+export const useDefaultGarden = (gardenId?: string): Garden | undefined => {
   const forceUpdate = useForceUpdate();
   const dbObjectRef = useRef<Garden & Realm.Object>();
 
   useEffect(() => {
-    const gardens = getGardens();
-    const garden =
-      gardens && gardens.length > 0
-        ? getDbObject<Garden>(gardens[0].id, 'Garden')
-        : createGarden({
-            name: 'Your first garden',
-            plants: getPlantsSortedBy('lastWatered').map((plant) => plant),
-          });
+    let garden;
+    if (gardenId) {
+      garden = getDbObject<Garden>(gardenId, 'Garden');
+    } else {
+      const gardens = getGardens();
+      garden =
+        gardens && gardens.length > 0
+          ? getDbObject<Garden>(gardens[0].id, 'Garden')
+          : createGarden({
+              name: 'Your first garden',
+              plants: getPlantsSortedBy('lastWatered').map((plant) => plant),
+            });
+    }
+
     dbObjectRef.current = garden;
     dbObjectRef.current?.addListener((_, changes) => {
       if (changes.deleted) {
@@ -91,7 +97,7 @@ export const useDefaultGarden = (): Garden | undefined => {
       }
     });
     return () => dbObjectRef.current?.removeAllListeners();
-  }, [forceUpdate]);
+  }, [forceUpdate, gardenId]);
 
   return dbObjectRef.current;
 };

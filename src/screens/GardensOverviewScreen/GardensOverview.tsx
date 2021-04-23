@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { StackScreenProps } from '@react-navigation/stack';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { TouchableOpacity, FlatList, StyleSheet, View } from 'react-native';
 import { Headline, IconButton } from 'react-native-paper';
 
 import { BottomActions } from 'components';
@@ -41,7 +41,11 @@ const GardensOverview = ({ navigation }: Props) => {
           data={gardens.reverse()}
           renderItem={({ item }) => {
             return (
-              <View style={styles.itemContainer}>
+              <TouchableOpacity
+                style={styles.itemContainer}
+                onPress={() => {
+                  navigation.replace('GardenView', { gardenId: item.id });
+                }}>
                 <IconButton
                   icon="fire"
                   onPress={() => {
@@ -50,7 +54,7 @@ const GardensOverview = ({ navigation }: Props) => {
                   }}
                 />
                 <Headline>{item.name}</Headline>
-              </View>
+              </TouchableOpacity>
             );
           }}
           keyExtractor={(item) => item.id}

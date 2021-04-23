@@ -14,9 +14,14 @@ import PlantList from './PlantList';
 
 type Props = StackScreenProps<StackParamList, 'GardenView'>;
 
-const GardenView = ({ navigation }: Props) => {
+const GardenView = ({
+  navigation,
+  route: {
+    params: { gardenId },
+  },
+}: Props) => {
   const { colors } = useTheme();
-  const garden = useDefaultGarden();
+  const garden = useDefaultGarden(gardenId);
 
   if (!garden) {
     return <Text>error</Text>;

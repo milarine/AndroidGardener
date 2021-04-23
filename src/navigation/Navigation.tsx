@@ -11,7 +11,7 @@ import PlantDetailView from 'screens/PlantDetailScreen/PlantDetailView';
 
 // https://reactnavigation.org/docs/typescript/
 export type StackParamList = {
-  GardenView: undefined;
+  GardenView: { gardenId: string };
   GardensOverview: undefined;
   AddPlantView: { gardenId: string };
   PlantDetailView: { plantId: string };
@@ -27,6 +27,7 @@ export const Navigation = () => {
         <Stack.Screen
           name="GardenView"
           component={GardenView}
+          initialParams={{ gardenId: undefined }}
           options={{ title: 'Your garden', headerShown: false }}
         />
         <Stack.Screen
