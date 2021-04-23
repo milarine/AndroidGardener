@@ -36,7 +36,11 @@ export const Navigation = () => {
           options={{ title: 'Add a plant' }}
         />
         {/* TODO: pass custom Header component to header prop of options */}
-        <Stack.Screen name="PlantDetailView" component={PlantDetailView} />
+        <Stack.Screen
+          name="PlantDetailView"
+          component={PlantDetailView}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="ImageFullScreenView"
           component={ImageFullScreenView}

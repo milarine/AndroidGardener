@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import type { StackScreenProps } from '@react-navigation/stack';
 import { View, StyleSheet } from 'react-native';
@@ -13,6 +13,7 @@ import {
 } from 'components/index';
 import { addImage, deleteImage, Plant, updatePlant, usePlant } from 'db';
 import { StackParamList } from 'navigation';
+import { Colors } from 'theme';
 import { formatDate } from 'utils';
 
 type Props = StackScreenProps<StackParamList, 'PlantDetailView'>;
@@ -24,10 +25,6 @@ const PlantDetailView: React.FC<Props> = ({
   navigation,
 }) => {
   const plant = usePlant(plantId);
-
-  useEffect(() => {
-    navigation.setOptions({ title: plant?.name });
-  }, [navigation, plant]);
 
   if (!plant) {
     return <Text>error</Text>;
@@ -49,6 +46,7 @@ const PlantDetailView: React.FC<Props> = ({
           };
           updatePlant(plantToSave);
         }}
+        textColor={Colors.black}
       />
       <Text>{`was last watered on ${formatDate(plant.lastWatered)}`}</Text>
       <Text>{`and added to your garden on ${formatDate(plant.created)}`}</Text>
