@@ -35,9 +35,7 @@ const GardenView = ({ navigation }: Props) => {
         navigation.navigate('AddPlantView', { gardenId: garden.id });
       }}
       mainActionIcon="spa"
-      rightAction={() =>
-        console.log('right action, TODO: navigate to GardenOverview')
-      }
+      rightAction={() => navigation.navigate('GardensOverview')}
       rightActionIcon="spa">
       <View style={[styles.container, { backgroundColor: colors.primary }]}>
         <View style={styles.titleContainer}>

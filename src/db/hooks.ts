@@ -44,6 +44,22 @@ export const usePlantsSortedBy = (prop: keyof Plant): Plant[] => {
   return plantsRef.current.map((plant) => plant);
 };
 
+export const useGardens = (): Garden[] => {
+  const forceUpdate = useForceUpdate();
+  const gardensRef = useRef<Realm.Results<Garden>>(getGardens());
+
+  useEffect(() => {
+    gardensRef.current = getGardens();
+    gardensRef.current.addListener((gardensInDb) => {
+      console.log('gardens in db changed: ', gardensInDb);
+      forceUpdate();
+    });
+    return () => gardensRef.current?.removeAllListeners();
+  }, [forceUpdate]);
+
+  return gardensRef.current.map((garden) => garden);
+};
+
 export const usePlant = (plantId: string): Plant | undefined => {
   return useDbObject<Plant>(plantId, 'Plant');
 };
