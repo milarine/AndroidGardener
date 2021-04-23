@@ -3,6 +3,7 @@ export {
   closeDb,
   createGarden,
   createPlant,
+  deleteGarden,
   deleteImage,
   deletePlant,
   openDb,

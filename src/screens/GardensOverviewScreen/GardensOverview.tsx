@@ -10,12 +10,19 @@ import { StackParamList } from 'navigation';
 import { Colors } from 'theme';
 
 import { AddGardenDialog } from './AddGardenDialog';
+import { DeleteGardenDialog } from './DeleteGardenDialog';
 
 type Props = StackScreenProps<StackParamList, 'GardensOverview'>;
 
 const GardensOverview = ({ navigation }: Props) => {
   const gardens = useGardens();
-  const [isAddingGarden, setIsAddingGarden] = useState(false);
+  const [isAddingGarden, setIsAddingGarden] = useState<boolean>(false);
+  const [gardenToDelete, setGardenToDelete] = useState<string | undefined>(
+    undefined,
+  );
+
+  console.log('garden to delete: ', gardenToDelete);
+
   return (
     <BottomActions
       leftAction={() => console.log('TODO: implement search plant')}
@@ -37,7 +44,10 @@ const GardensOverview = ({ navigation }: Props) => {
               <View style={styles.itemContainer}>
                 <IconButton
                   icon="fire"
-                  onPress={() => console.log('TODO: deleting garden', item.id)}
+                  onPress={() => {
+                    console.log('TODO: deleting garden', item.id);
+                    setGardenToDelete(item.id);
+                  }}
                 />
                 <Headline>{item.name}</Headline>
               </View>
@@ -49,6 +59,17 @@ const GardensOverview = ({ navigation }: Props) => {
           setIsVisible={setIsAddingGarden}
           visible={isAddingGarden}
         />
+        {gardenToDelete && (
+          <DeleteGardenDialog
+            gardenId={gardenToDelete}
+            isVisible={true}
+            setIsVisible={(isVisible) => {
+              if (!isVisible) {
+                setGardenToDelete(undefined);
+              }
+            }}
+          />
+        )}
       </View>
     </BottomActions>
   );

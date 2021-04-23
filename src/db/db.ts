@@ -104,6 +104,9 @@ export const deletePlant = (id: string): void =>
 export const deleteImage = (id: string): void =>
   db.write(() => db.delete(getDbObject<Image>(id, 'Image')));
 
+export const deleteGarden = (id: string): void =>
+  db.write(() => db.delete(getDbObject<Garden>(id, 'Garden')));
+
 export const getPlantsSortedBy = (prop: keyof Plant): Realm.Results<Plant> => {
   return db.objects<Plant>('Plant')?.sorted(prop, false);
 };
