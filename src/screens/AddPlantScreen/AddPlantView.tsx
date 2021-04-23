@@ -37,7 +37,6 @@ const AddPlantView: React.FC<Props> = ({
           .min(1, 'You have to add at least one image.'),
       })}
       onSubmit={(values) => {
-        // TODO: fix
         createPlant({ ...values, gardenId });
         navigation.navigate('GardenView');
       }}>

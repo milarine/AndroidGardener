@@ -36,6 +36,9 @@ export const updateGarden = (gardenToSave: Garden): void => {
   const { id, created, name, plants } = gardenToSave;
   const values = { created, name, plants };
   const garden = getDbObject<Garden>(id, 'Garden');
+  console.log('values to save for garden: ', values);
+  console.log('garden: ', garden?.name);
+
   db.write(() => {
     Object.assign(garden, values);
   });
@@ -45,30 +48,27 @@ export const createPlant = (
   values: PlantDto,
 ): (Plant & Realm.Object) | undefined => {
   let result;
-  db.write(() => {
-    result = db.create<Plant>('Plant', {
-      ...values,
-      created: new Date(),
-      images: values.images.map((img) => ({
-        ...img,
-        id: uid(),
-        date: new Date(),
-      })),
+  const plant = {
+    ...values,
+    created: new Date(),
+    images: values.images.map((img) => ({
+      ...img,
       id: uid(),
-    });
-  });
+      date: new Date(),
+    })),
+    id: uid(),
+  };
   const garden = getDbObject<Garden>(values.gardenId, 'Garden');
   if (!garden) {
     console.error(
       `Failed to add plant ${values.name} to garden ${values.gardenId}`,
     );
+    return undefined;
   }
-  const { plants, id, created, name } = garden;
-  const gardenValues = { plants, id, created, name };
-  console.log('garden values: ', gardenValues);
+  const { plants } = garden;
 
   db.write(() => {
-    Object.assign(gardenValues, { plants: [...plants, result] });
+    garden.plants = [...plants, plant];
   });
   return result;
 };
