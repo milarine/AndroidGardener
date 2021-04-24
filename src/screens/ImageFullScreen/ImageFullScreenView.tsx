@@ -1,8 +1,9 @@
 import React from 'react';
 
 import type { StackScreenProps } from '@react-navigation/stack';
-import { View, Image, StyleSheet, Text, Dimensions } from 'react-native';
+import { View, Image, StyleSheet, Dimensions } from 'react-native';
 
+import { LoadingSpinner } from 'components/LoadingSpinner';
 import { useImage } from 'db';
 import { StackParamList } from 'navigation';
 
@@ -16,7 +17,7 @@ const ImageFullScreenView: React.FC<Props> = ({
   const image = useImage(imageId);
 
   if (!image) {
-    return <Text>error</Text>;
+    return <LoadingSpinner />;
   }
 
   return (

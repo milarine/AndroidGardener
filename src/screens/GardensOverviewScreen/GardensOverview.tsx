@@ -21,8 +21,6 @@ const GardensOverview = ({ navigation }: Props) => {
     undefined,
   );
 
-  console.log('garden to delete: ', gardenToDelete);
-
   return (
     <BottomActions
       leftAction={() => console.log('TODO: implement search plant')}
@@ -44,7 +42,12 @@ const GardensOverview = ({ navigation }: Props) => {
               <TouchableOpacity
                 style={styles.itemContainer}
                 onPress={() => {
-                  navigation.replace('GardenView', { gardenId: item.id });
+                  navigation.reset({
+                    index: 0,
+                    routes: [
+                      { name: 'GardenView', params: { gardenId: item.id } },
+                    ],
+                  });
                 }}>
                 <IconButton
                   icon="fire"

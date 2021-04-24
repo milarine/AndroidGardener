@@ -82,9 +82,10 @@ export const createGarden = (
     result = db.create<Garden>('Garden', {
       ...values,
       plants: values.plants.map((plant) => ({
-        ...plant,
+        name: plant.name,
+        lastWatered: plant.lastWatered,
         images: plant.images.map((img) => ({
-          ...img,
+          uri: img.uri,
           id: uid(),
           date: new Date(),
         })),

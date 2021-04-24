@@ -2,10 +2,11 @@ import React from 'react';
 
 import { StackScreenProps } from '@react-navigation/stack';
 import { StyleSheet, View } from 'react-native';
-import { Text, useTheme } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
 
 import { BottomActions } from 'components';
 import EditableHeadline from 'components/EditableHeadline';
+import { LoadingSpinner } from 'components/LoadingSpinner';
 import { Garden, Plant, useDefaultGarden, updateGarden } from 'db';
 import { StackParamList } from 'navigation';
 import { Colors } from 'theme';
@@ -24,7 +25,7 @@ const GardenView = ({
   const garden = useDefaultGarden(gardenId);
 
   if (!garden) {
-    return <Text>error</Text>;
+    return <LoadingSpinner />;
   }
   const plantIds = garden.plants.map((plant) => plant.id);
 

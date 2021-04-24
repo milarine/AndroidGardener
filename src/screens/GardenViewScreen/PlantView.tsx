@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   item: {
-    height: 100,
+    minHeight: 100,
   },
   imageContainer: {
     width: '40%',

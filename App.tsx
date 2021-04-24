@@ -3,15 +3,12 @@ import 'react-native-gesture-handler';
 import React, { useState, useEffect, useRef } from 'react';
 
 import { AppState, AppStateStatus } from 'react-native';
-import {
-  DefaultTheme,
-  Provider as PaperProvider,
-  Text,
-} from 'react-native-paper';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 
 import { closeDb, openDb } from 'db';
 import { Colors } from 'theme';
 import { Navigation } from 'navigation';
+import { LoadingSpinner } from 'components/LoadingSpinner';
 
 const theme = {
   ...DefaultTheme,
@@ -81,7 +78,7 @@ const App = () => {
 
   return (
     <PaperProvider theme={theme}>
-      {shouldShowApp ? <Navigation /> : <Text>Loading</Text>}
+      {shouldShowApp ? <Navigation /> : <LoadingSpinner />}
     </PaperProvider>
   );
 };

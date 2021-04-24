@@ -11,6 +11,7 @@ import {
   ImageList,
   WaterPlantDialog,
 } from 'components/index';
+import { LoadingSpinner } from 'components/LoadingSpinner';
 import { addImage, deleteImage, Plant, updatePlant, usePlant } from 'db';
 import { StackParamList } from 'navigation';
 import { Colors } from 'theme';
@@ -27,7 +28,7 @@ const PlantDetailView: React.FC<Props> = ({
   const plant = usePlant(plantId);
 
   if (!plant) {
-    return <Text>error</Text>;
+    return <LoadingSpinner />;
   }
 
   return (
