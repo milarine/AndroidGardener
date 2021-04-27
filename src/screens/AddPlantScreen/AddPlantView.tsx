@@ -38,7 +38,7 @@ const AddPlantView: React.FC<Props> = ({
       })}
       onSubmit={(values) => {
         createPlant({ ...values, gardenId });
-        navigation.navigate('GardenView');
+        navigation.navigate('GardenView', { gardenId });
       }}>
       {({
         handleSubmit,
