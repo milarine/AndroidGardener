@@ -9,14 +9,12 @@ import { useGardens } from 'db';
 import { StackParamList } from 'navigation';
 import { Colors } from 'theme';
 
-import { AddGardenDialog } from './AddGardenDialog';
 import { DeleteGardenDialog } from './DeleteGardenDialog';
 
 type Props = StackScreenProps<StackParamList, 'GardensOverview'>;
 
 const GardensOverview = ({ navigation }: Props) => {
   const gardens = useGardens();
-  const [isAddingGarden, setIsAddingGarden] = useState<boolean>(false);
   const [gardenToDelete, setGardenToDelete] = useState<string | undefined>(
     undefined,
   );
@@ -26,7 +24,7 @@ const GardensOverview = ({ navigation }: Props) => {
       leftAction={() => console.log('TODO: implement search plant')}
       leftActionIcon="magnify"
       mainAction={() => {
-        setIsAddingGarden(true);
+        navigation.navigate('AddGardenView');
       }}
       mainActionIcon="plus"
       rightAction={() => console.log('TODO: choose what to do here')}
@@ -62,10 +60,6 @@ const GardensOverview = ({ navigation }: Props) => {
           }}
           keyExtractor={(item) => item.id}
         />
-        <AddGardenDialog
-          setIsVisible={setIsAddingGarden}
-          visible={isAddingGarden}
-        />
         {gardenToDelete && (
           <DeleteGardenDialog
             gardenId={gardenToDelete}
@@ -75,6 +69,12 @@ const GardensOverview = ({ navigation }: Props) => {
                 setGardenToDelete(undefined);
               }
             }}
+            onDelete={() =>
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'GardenView' }],
+              })
+            }
           />
         )}
       </View>

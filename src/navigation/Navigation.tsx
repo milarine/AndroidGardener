@@ -3,6 +3,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import { AddGardenView } from 'screens/AddGardenScreen/AddGardenView';
 import AddPlantView from 'screens/AddPlantScreen/AddPlantView';
 import GardensOverview from 'screens/GardensOverviewScreen/GardensOverview';
 import GardenView from 'screens/GardenViewScreen/GardenView';
@@ -13,6 +14,7 @@ import PlantDetailView from 'screens/PlantDetailScreen/PlantDetailView';
 export type StackParamList = {
   GardenView: { gardenId: string };
   GardensOverview: undefined;
+  AddGardenView: undefined;
   AddPlantView: { gardenId: string };
   PlantDetailView: { plantId: string };
   ImageFullScreenView: { imageId: string };
@@ -29,6 +31,11 @@ export const Navigation = () => {
           component={GardenView}
           initialParams={{ gardenId: undefined }}
           options={{ title: 'Your garden', headerShown: false }}
+        />
+        <Stack.Screen
+          name="AddGardenView"
+          component={AddGardenView}
+          options={{ title: 'Add a garden' }}
         />
         <Stack.Screen
           name="AddPlantView"

@@ -1,6 +1,12 @@
 import { useEffect, useRef, useReducer } from 'react';
 
-import { createGarden, getDbObject, getGardens, getPlantsSortedBy } from './db';
+import {
+  createGarden,
+  getDbObject,
+  getGardens,
+  getPlants,
+  getPlantsSortedBy,
+} from './db';
 import { Image, Plant, Garden } from './schema';
 
 const useForceUpdate = () => {
@@ -58,6 +64,22 @@ export const useGardens = (): Garden[] => {
   }, [forceUpdate]);
 
   return gardensRef.current.map((garden) => garden);
+};
+
+export const usePlants = (): Plant[] => {
+  const forceUpdate = useForceUpdate();
+  const plantsRef = useRef<Realm.Results<Plant>>(getPlants());
+
+  useEffect(() => {
+    plantsRef.current = getPlants();
+    plantsRef.current.addListener((plantsInDb) => {
+      console.log('plants in db changed: ', plantsInDb);
+      forceUpdate();
+    });
+    return () => plantsRef.current?.removeAllListeners();
+  }, [forceUpdate]);
+
+  return plantsRef.current.map((plant) => plant);
 };
 
 export const usePlant = (plantId: string): Plant | undefined => {

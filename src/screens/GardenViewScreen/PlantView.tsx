@@ -4,9 +4,11 @@ import {
   Animated,
   Image,
   ListRenderItemInfo,
+  StyleProp,
   StyleSheet,
   TouchableOpacity,
   View,
+  ViewStyle,
 } from 'react-native';
 import { Headline, Text } from 'react-native-paper';
 import { RowMap } from 'react-native-swipe-list-view';
@@ -37,13 +39,23 @@ export const renderHiddenItem = (
 
 export const createPlantView: (
   onPressItem: (plant: Plant) => void,
-) => ({ item }: ListRenderItemInfo<Plant>) => JSX.Element = (onPressItem) => ({
-  item,
-}: ListRenderItemInfo<Plant>) => {
+  pressedPlantStyle: StyleProp<ViewStyle>,
+  pressed: string[],
+) => ({ item }: ListRenderItemInfo<Plant>) => JSX.Element = (
+  onPressItem,
+  pressedPlantStyle,
+  pressed,
+) => ({ item }: ListRenderItemInfo<Plant>) => {
+  const containerStyles = pressed.some((p) => p === item.id)
+    ? [styles.plantContainer, styles.container, pressedPlantStyle]
+    : [styles.plantContainer, styles.container];
+
   return (
     <TouchableOpacity
-      style={[styles.plantContainer, styles.container]}
-      onPress={() => onPressItem(item)}
+      style={containerStyles}
+      onPress={() => {
+        onPressItem(item);
+      }}
       activeOpacity={1}>
       {item.images && item.images.length > 0 && (
         <View style={[styles.item, styles.imageContainer]}>

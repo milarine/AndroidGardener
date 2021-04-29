@@ -9,17 +9,20 @@ type Props = {
   gardenId: string;
   isVisible: boolean;
   setIsVisible: (isVisible: boolean) => void;
+  onDelete: () => void;
 };
 
 export const DeleteGardenDialog: React.FC<Props> = ({
   gardenId,
   isVisible,
   setIsVisible,
+  onDelete,
 }) => {
   const hideDialog = () => setIsVisible(false);
 
   const confirmDeletion = () => {
     deleteGarden(gardenId);
+    onDelete();
     hideDialog();
   };
 

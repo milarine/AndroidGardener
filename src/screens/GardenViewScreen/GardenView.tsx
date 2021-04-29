@@ -8,6 +8,7 @@ import { BottomActions } from 'components';
 import EditableHeadline from 'components/EditableHeadline';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { Garden, Plant, useDefaultGarden, updateGarden } from 'db';
+// import { deleteImage, getImages } from 'db/db';
 import { StackParamList } from 'navigation';
 import { Colors } from 'theme';
 
@@ -27,6 +28,14 @@ const GardenView = ({
   if (!garden) {
     return <LoadingSpinner />;
   }
+
+  // const images = getImages()
+  //   .filter((i) => i.plant.map((p) => p.id).filter(Boolean).length === 0)
+  //   .map((i) => i.id);
+
+  // console.log('images without plant: ', images);
+  // images.forEach((i) => deleteImage(i));
+
   const plantIds = garden.plants.map((plant) => plant.id);
 
   const onPressItem = (plant: Plant) => {

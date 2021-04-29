@@ -6,7 +6,7 @@ import { StyleSheet, View } from 'react-native';
 import { HelperText } from 'react-native-paper';
 import * as yup from 'yup';
 
-import { FloatingActionButton as FAB, TextInput } from 'components';
+import { FloatingActionButton, TextInput } from 'components';
 import { ImageDto, createPlant } from 'db';
 import { StackParamList } from 'navigation';
 
@@ -73,7 +73,7 @@ const AddPlantView: React.FC<Props> = ({
                 images={values.images}
               />
             </View>
-            <FAB onPress={handleSubmit} icon="check" />
+            <FloatingActionButton onPress={handleSubmit} icon="check" />
           </>
         );
       }}

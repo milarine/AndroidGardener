@@ -12,15 +12,15 @@ export class Garden {
 
   public id: string;
   public name: string;
-  public plants: Plant[];
+  public plants: Realm.List<Plant>;
   public created: Date;
 
-  constructor(id: string, name: string, created: Date, plants: Plant[]) {
-    this.id = id;
-    this.name = name;
-    this.created = created;
-    this.plants = plants;
-  }
+  // constructor(id: string, name: string, created: Date, plants: Plant[]) {
+  //   this.id = id;
+  //   this.name = name;
+  //   this.created = created;
+  //   this.plants = plants;
+  // }
 }
 
 export class Plant {
@@ -43,23 +43,24 @@ export class Plant {
 
   public id: string;
   public name: string;
-  public images: Image[];
+  public images: Realm.List<Image>;
   public lastWatered: Date;
   public created: Date;
+  public garden: Realm.Results<Garden>;
 
-  constructor(
-    name: string,
-    images: Image[],
-    lastWatered: Date,
-    created: Date,
-    id: string,
-  ) {
-    this.id = id;
-    this.name = name;
-    this.images = images;
-    this.lastWatered = lastWatered;
-    this.created = created;
-  }
+  // constructor(
+  //   name: string,
+  //   images: Image[],
+  //   lastWatered: Date,
+  //   created: Date,
+  //   id: string,
+  // ) {
+  //   this.id = id;
+  //   this.name = name;
+  //   this.images = images;
+  //   this.lastWatered = lastWatered;
+  //   this.created = created;
+  // }
 }
 
 export class Image {
@@ -70,22 +71,29 @@ export class Image {
       id: 'string',
       uri: 'string',
       date: 'date',
+      plant: {
+        type: 'linkingObjects',
+        objectType: 'Plant',
+        property: 'images',
+      },
     },
   };
 
   public id: string;
   public uri: string;
   public date: Date;
+  public plant: Realm.Results<Plant>;
 
-  constructor(id: string, uri: string, date: Date) {
-    this.id = id;
-    this.uri = uri;
-    this.date = date;
-  }
+  // constructor(id: string, uri: string, date: Date) {
+  //   this.id = id;
+  //   this.uri = uri;
+  //   this.date = date;
+  // }
 }
 
 export interface ImageDto {
   uri: string;
+  id?: string;
 }
 
 export interface PlantDto {
@@ -93,7 +101,8 @@ export interface PlantDto {
   images: ImageDto[];
   lastWatered: Date;
   created: Date;
-  gardenId: string;
+  gardenId?: string;
+  id?: string;
 }
 
 export interface GardenDto {
