@@ -14,13 +14,14 @@ export const AddImageButton: React.FC<Props> = ({ addImage }) => {
         launchImageLibrary(
           {
             mediaType: 'photo',
+            includeBase64: true,
           },
-          ({ uri, errorCode }) => {
+          ({ errorCode, base64 }) => {
             if (errorCode) {
               console.log('Could not launch image library. Error: ', errorCode);
             }
-            if (uri) {
-              addImage(uri);
+            if (base64) {
+              addImage(`data:image/png;base64,${base64}`);
             }
           },
         );
