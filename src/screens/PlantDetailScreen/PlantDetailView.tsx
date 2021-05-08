@@ -12,6 +12,7 @@ import {
   WaterPlantDialog,
 } from 'components/index';
 import { LoadingSpinner } from 'components/LoadingSpinner';
+import { MovePlantDialog } from 'components/MovePlantDialog';
 import { addImage, deleteImage, Plant, updatePlant, usePlant } from 'db';
 import { StackParamList } from 'navigation';
 import { Colors } from 'theme';
@@ -49,6 +50,7 @@ const PlantDetailView: React.FC<Props> = ({
         }}
         textColor={Colors.black}
       />
+      <MovePlantDialog plantId={plant.id} />
       <Text>{`was last watered on ${formatDate(plant.lastWatered)}`}</Text>
       <Text>{`and added to your garden on ${formatDate(plant.created)}`}</Text>
       <ImageList

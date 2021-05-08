@@ -181,3 +181,32 @@ export const waterPlant = (plantId: string, date?: Date) => {
     });
   });
 };
+
+export const movePlant = (plantId: string, gardenId: string) => {
+  const plant = getDbObject<Plant>(plantId, 'Plant');
+  const gardenToAdd = getDbObject<Garden>(gardenId, 'Garden');
+
+  if (!gardenToAdd) {
+    throw new Error(
+      `Cannot move plant ${plantId} to garden ${gardenId}. Garden does not exist.`,
+    );
+  }
+
+  if (!plant) {
+    throw new Error(
+      `Cannot move plant ${plantId} to garden ${gardenId}. Plant does not exist.`,
+    );
+  }
+
+  db.write(() => {
+    gardenToAdd.plants = [...gardenToAdd?.plants, plant];
+  });
+
+  plant.garden.forEach((garden) => {
+    if (garden && garden.id !== gardenId) {
+      db.write(() => {
+        garden.plants = garden.plants.filter((p) => p.id !== plant.id);
+      });
+    }
+  });
+};
