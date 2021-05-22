@@ -98,17 +98,23 @@ export const createGarden = (
 
 export const deletePlant = (id: string): void => {
   const plant = getDbObject<Plant>(id, Plant.schema.name);
+  plant?.removeAllListeners();
+  plant?.images.forEach((i) => deleteImage(i.id));
   db.write(() => {
     db.delete(plant?.images);
     db.delete(plant);
   });
 };
 
-export const deleteImage = (id: string): void =>
-  db.write(() => db.delete(getDbObject<Image>(id, Image.schema.name)));
+export const deleteImage = (id: string): void => {
+  const image = getDbObject<Image>(id, Image.schema.name);
+  image?.removeAllListeners();
+  db.write(() => db.delete(image));
+};
 
 export const deleteGarden = (id: string): void => {
   const garden = getDbObject<Garden>(id, Garden.schema.name);
+  garden?.removeAllListeners();
   garden?.plants.forEach((p) => deletePlant(p.id));
   db.write(() => {
     db.delete(garden);
