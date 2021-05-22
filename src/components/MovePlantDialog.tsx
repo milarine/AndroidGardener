@@ -41,13 +41,13 @@ export const MovePlantDialog: React.FC<Props> = ({ plantId }) => {
     }
   };
 
-  const currentGarden = plant?.garden[0];
+  const currentGarden = plant?.garden?.[0];
 
   return (
     <View>
       <TouchableOpacity style={styles.gardenName} onPress={showDialog}>
         <Text>{currentGarden?.name}</Text>
-        <IconButton icon="pencil" />
+        <IconButton icon="chevron-down" />
       </TouchableOpacity>
       <Portal>
         <Dialog visible={visible} onDismiss={hideDialog}>

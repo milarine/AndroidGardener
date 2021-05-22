@@ -23,10 +23,7 @@ export const closeDb = (): void => db.close();
 //   db.write(db.deleteAll);
 // };
 
-export const createPlant = (
-  values: PlantDto,
-): (Plant & Realm.Object) | undefined => {
-  let result;
+export const createPlant = (values: PlantDto): void => {
   const plant: Plant = {
     ...values,
     created: new Date(),
@@ -57,13 +54,12 @@ export const createPlant = (
   db.write(() => {
     garden.plants = [...plants, plant];
   });
-  return result;
 };
 
 export const createGarden = (
   values: GardenDto,
 ): (Garden & Realm.Object) | undefined => {
-  let result: Garden & Realm.Object;
+  let result: (Garden & Realm.Object) | undefined;
   const newGardenId = uid();
 
   db.write(() => {
@@ -89,7 +85,7 @@ export const createGarden = (
     );
 
     result.plants.map((plant) =>
-      plant.garden.forEach((garden) => {
+      plant.garden?.forEach((garden) => {
         if (garden && garden.id !== newGardenId) {
           garden.plants = garden.plants.filter((p) => p.id !== plant.id);
         }
@@ -156,7 +152,7 @@ export const movePlant = (plantId: string, gardenId: string) => {
     gardenToAdd.plants = [...gardenToAdd?.plants, plant];
   });
 
-  plant.garden.forEach((garden) => {
+  plant.garden?.forEach((garden) => {
     if (garden && garden.id !== gardenId) {
       db.write(() => {
         garden.plants = garden.plants.filter((p) => p.id !== plant.id);

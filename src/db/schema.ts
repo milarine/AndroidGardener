@@ -12,7 +12,7 @@ export class Garden {
 
   public id!: string;
   public name!: string;
-  public plants!: Realm.List<Plant>;
+  public plants!: Plant[];
   public created!: Date;
 }
 
@@ -36,10 +36,10 @@ export class Plant {
 
   public id!: string;
   public name!: string;
-  public images!: Realm.List<Image>;
+  public images!: Image[];
   public lastWatered!: Date;
   public created!: Date;
-  public garden!: Realm.Results<Garden>;
+  public garden?: Realm.Results<Garden>;
 }
 
 export class Image {
@@ -61,7 +61,7 @@ export class Image {
   public id!: string;
   public uri!: string;
   public date!: Date;
-  public plant!: Realm.Results<Plant>;
+  public plant?: Realm.Results<Plant>;
 }
 
 export interface ImageDto {
