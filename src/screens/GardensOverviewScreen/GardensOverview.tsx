@@ -69,12 +69,12 @@ const GardensOverview = ({ navigation }: Props) => {
                 setGardenToDelete(undefined);
               }
             }}
-            onDelete={() =>
+            onDelete={() => {
               navigation.reset({
                 index: 0,
-                routes: [{ name: 'GardenView' }],
-              })
-            }
+                routes: [{ name: 'GardensOverview' }],
+              });
+            }}
           />
         )}
       </View>
