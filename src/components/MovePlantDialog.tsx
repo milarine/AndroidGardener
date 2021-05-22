@@ -11,7 +11,7 @@ import {
   IconButton,
 } from 'react-native-paper';
 
-import { useGardens, usePlant } from 'db';
+import { useGardens, getPlant } from 'db';
 import { movePlant } from 'db/db';
 import { Colors } from 'theme';
 
@@ -25,8 +25,8 @@ export const MovePlantDialog: React.FC<Props> = ({ plantId }) => {
   const [selectedGarden, setSelectedGarden] = useState<string | undefined>(
     undefined,
   );
-  const plant = usePlant(plantId);
   const gardens = useGardens();
+  const plant = getPlant(plantId);
 
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);

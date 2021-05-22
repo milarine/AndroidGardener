@@ -99,7 +99,6 @@ export const createGarden = (
 export const deletePlant = (id: string): void => {
   const plant = getDbObject<Plant>(id, Plant.schema.name);
   plant?.removeAllListeners();
-  plant?.images.forEach((i) => deleteImage(i.id));
   db.write(() => {
     db.delete(plant?.images);
     db.delete(plant);
@@ -199,6 +198,10 @@ export const getPlants = (): Realm.Results<Plant> => {
 
 export const getImages = (): Realm.Results<Image> => {
   return db.objects<Image>(Image.schema.name);
+};
+
+export const getPlant = (plantId: string): Plant | undefined => {
+  return getDbObject<Plant>(plantId, Plant.schema.name);
 };
 
 export const getDbObject = <T>(
