@@ -27,10 +27,10 @@ export const TextInput: React.FC<Props> = ({
 }) => {
   return (
     <Input
-      style={[style, { backgroundColor: Colors.dark }]}
+      style={[style, { backgroundColor: Colors.darkest }]}
       label={label}
       mode="outlined"
-      theme={{ colors: { primary: Colors.light, text: Colors.lightest } }}
+      theme={{ colors: { primary: Colors.dark, text: Colors.lightest } }}
       onChangeText={onChangeText}
       onBlur={onBlur}
       value={value}

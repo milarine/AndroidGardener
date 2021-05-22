@@ -15,7 +15,7 @@ const theme = {
   colors: {
     ...DefaultTheme.colors,
     // - primary color for your app, usually your brand color.
-    primary: Colors.dark,
+    primary: Colors.light,
     // - secondary color for your app which complements the primary color.
     accent: Colors.lightest,
     // - background color for pages, such as lists.

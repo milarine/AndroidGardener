@@ -58,7 +58,7 @@ const GardenView = ({
             initialValue={garden.name}
             label="Garden name"
             textColor={Colors.lightest}
-            iconColorEdit={Colors.light}
+            iconColorEdit={Colors.dark}
             iconColorSave={Colors.lightest}
             onSave={(value) => {
               renameGarden(garden.id, value);
