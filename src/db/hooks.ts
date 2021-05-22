@@ -1,4 +1,4 @@
-import { useEffect, useRef, useReducer } from 'react';
+import React, { useEffect, useRef, useReducer, useCallback } from 'react';
 
 import {
   createGarden,
@@ -34,52 +34,42 @@ const useDbObject = <T>(id: string, table: string): T | undefined => {
   return dbObjectRef.current;
 };
 
-export const usePlantsSortedBy = (prop: keyof Plant): Plant[] => {
+const useUpdateEffect = <T>(
+  resultsRef: React.MutableRefObject<Realm.Results<T>>,
+  resultsProvider: () => Realm.Results<T>,
+) => {
   const forceUpdate = useForceUpdate();
-  const plantsRef = useRef<Realm.Results<Plant>>(getPlantsSortedBy(prop));
-
   useEffect(() => {
-    plantsRef.current = getPlantsSortedBy(prop);
-    plantsRef.current.addListener((plantsInDb) => {
-      console.log('plants in db changed: ', plantsInDb);
+    resultsRef.current = resultsProvider();
+    resultsRef.current.addListener((objectsInDb) => {
+      console.log('objects in db changed: ', objectsInDb);
       forceUpdate();
     });
-    return () => plantsRef.current?.removeAllListeners();
-  }, [prop, forceUpdate]);
+    return () => resultsRef.current?.removeAllListeners();
+  }, [forceUpdate, resultsProvider, resultsRef]);
+};
 
-  return plantsRef.current.map((plant) => plant);
+const useDbResults = <T>(provider: () => Realm.Results<T>): T[] => {
+  const resultsRef = useRef<Realm.Results<T>>(provider());
+
+  useUpdateEffect(resultsRef, provider);
+
+  return resultsRef.current.map((value) => value);
+};
+
+export const usePlantsSortedBy = (prop: keyof Plant): Plant[] => {
+  const plantsProvider = useCallback(() => getPlantsSortedBy(prop), [prop]);
+  return useDbResults(plantsProvider);
 };
 
 export const useGardens = (): Garden[] => {
-  const forceUpdate = useForceUpdate();
-  const gardensRef = useRef<Realm.Results<Garden>>(getGardens());
-
-  useEffect(() => {
-    gardensRef.current = getGardens();
-    gardensRef.current.addListener((gardensInDb) => {
-      console.log('gardens in db changed: ', gardensInDb);
-      forceUpdate();
-    });
-    return () => gardensRef.current?.removeAllListeners();
-  }, [forceUpdate]);
-
-  return gardensRef.current.map((garden) => garden);
+  const gardenProvider = useCallback(getGardens, []);
+  return useDbResults(gardenProvider);
 };
 
 export const usePlants = (): Plant[] => {
-  const forceUpdate = useForceUpdate();
-  const plantsRef = useRef<Realm.Results<Plant>>(getPlants());
-
-  useEffect(() => {
-    plantsRef.current = getPlants();
-    plantsRef.current.addListener((plantsInDb) => {
-      console.log('plants in db changed: ', plantsInDb);
-      forceUpdate();
-    });
-    return () => plantsRef.current?.removeAllListeners();
-  }, [forceUpdate]);
-
-  return plantsRef.current.map((plant) => plant);
+  const plantsProvider = useCallback(getPlants, []);
+  return useDbResults(plantsProvider);
 };
 
 export const usePlant = (plantId: string): Plant | undefined => {
@@ -115,10 +105,14 @@ export const useGarden = (gardenId?: string): Garden | undefined => {
       if (changes.deleted) {
         console.log('deleted garden');
       } else {
-        console.log('garden changed: ', changes);
+        console.log(
+          `garden '${dbObjectRef.current?.name}' with id '${dbObjectRef.current?.id}' changed: `,
+          changes,
+        );
         forceUpdate();
       }
     });
+
     return () => dbObjectRef.current?.removeAllListeners();
   }, [forceUpdate, gardenId]);
 
