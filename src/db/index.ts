@@ -1,14 +1,14 @@
 export {
-  addImage,
+  openDb,
   closeDb,
   createGarden,
   createPlant,
   deleteGarden,
   deleteImage,
   deletePlant,
-  openDb,
-  updateGarden,
-  updatePlant,
+  addImage,
+  renamePlant,
+  renameGarden,
   waterPlant,
 } from './db';
 export * from './hooks';

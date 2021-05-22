@@ -23,32 +23,11 @@ export const closeDb = (): void => db.close();
 //   db.write(db.deleteAll);
 // };
 
-export const updatePlant = (plantToSave: Plant): void => {
-  const { id, created, lastWatered, images, name } = plantToSave;
-  const values = { created, lastWatered, images, name };
-  const plant = getDbObject<Plant>(id, 'Plant');
-  db.write(() => {
-    Object.assign(plant, values);
-  });
-};
-
-export const updateGarden = (gardenToSave: Garden): void => {
-  const { id, created, name, plants } = gardenToSave;
-  const values = { created, name, plants };
-  const garden = getDbObject<Garden>(id, 'Garden');
-  console.log('values to save for garden: ', values);
-  console.log('garden: ', garden?.name);
-
-  db.write(() => {
-    Object.assign(garden, values);
-  });
-};
-
 export const createPlant = (
   values: PlantDto,
 ): (Plant & Realm.Object) | undefined => {
   let result;
-  const plant = {
+  const plant: Plant = {
     ...values,
     created: new Date(),
     images: values.images.map((img) => ({
@@ -66,7 +45,7 @@ export const createPlant = (
     return undefined;
   }
 
-  const garden = getDbObject<Garden>(values.gardenId, 'Garden');
+  const garden = getDbObject<Garden>(values.gardenId, Garden.schema.name);
   if (!garden) {
     console.error(
       `Failed to add plant ${values.name} to garden ${values.gardenId}`,
@@ -89,7 +68,7 @@ export const createGarden = (
 
   db.write(() => {
     result = db.create<Garden>(
-      Garden.schema.name, // TODO: replace all db object strings with call to schema.name
+      Garden.schema.name,
       {
         ...values,
         plants: values.plants.map((plant) => ({
@@ -108,25 +87,21 @@ export const createGarden = (
       },
       Realm.UpdateMode.Modified,
     );
+
+    result.plants.map((plant) =>
+      plant.garden.forEach((garden) => {
+        if (garden && garden.id !== newGardenId) {
+          garden.plants = garden.plants.filter((p) => p.id !== plant.id);
+        }
+      }),
+    );
   });
-  result.plants.map((plant) =>
-    plant.garden.forEach((garden) => {
-      if (garden && garden.id !== newGardenId) {
-        const updatedGarden = {
-          id: garden.id,
-          name: garden.name,
-          created: garden.created,
-          plants: garden.plants.filter((p) => p.id !== plant.id),
-        };
-        updateGarden(updatedGarden);
-      }
-    }),
-  );
+
   return result;
 };
 
 export const deletePlant = (id: string): void => {
-  const plant = getDbObject<Plant>(id, 'Plant');
+  const plant = getDbObject<Plant>(id, Plant.schema.name);
   db.write(() => {
     db.delete(plant?.images);
     db.delete(plant);
@@ -134,36 +109,15 @@ export const deletePlant = (id: string): void => {
 };
 
 export const deleteImage = (id: string): void =>
-  db.write(() => db.delete(getDbObject<Image>(id, 'Image')));
+  db.write(() => db.delete(getDbObject<Image>(id, Image.schema.name)));
 
 export const deleteGarden = (id: string): void => {
-  const garden = getDbObject<Garden>(id, 'Garden');
+  const garden = getDbObject<Garden>(id, Garden.schema.name);
   garden?.plants.forEach((p) => deletePlant(p.id));
   db.write(() => {
     db.delete(garden);
   });
 };
-
-export const getPlantsSortedBy = (prop: keyof Plant): Realm.Results<Plant> => {
-  return db.objects<Plant>('Plant')?.sorted(prop, false);
-};
-
-export const getGardens = (): Realm.Results<Garden> => {
-  return db.objects<Garden>('Garden');
-};
-
-export const getPlants = (): Realm.Results<Plant> => {
-  return db.objects<Plant>('Plant');
-};
-
-export const getImages = (): Realm.Results<Image> => {
-  return db.objects<Image>('Image');
-};
-
-export const getDbObject = <T>(
-  id: string,
-  table: string,
-): (T & Realm.Object) | undefined => db.objectForPrimaryKey<T>(table, id);
 
 export const addImage = (plant: Plant, uri: string) => {
   db.write(() => {
@@ -174,7 +128,7 @@ export const addImage = (plant: Plant, uri: string) => {
 };
 
 export const waterPlant = (plantId: string, date?: Date) => {
-  const plant = getDbObject<Plant>(plantId, 'Plant');
+  const plant = getDbObject<Plant>(plantId, Plant.schema.name);
   db.write(() => {
     Object.assign(plant, {
       lastWatered: date ?? new Date(),
@@ -183,8 +137,8 @@ export const waterPlant = (plantId: string, date?: Date) => {
 };
 
 export const movePlant = (plantId: string, gardenId: string) => {
-  const plant = getDbObject<Plant>(plantId, 'Plant');
-  const gardenToAdd = getDbObject<Garden>(gardenId, 'Garden');
+  const plant = getDbObject<Plant>(plantId, Plant.schema.name);
+  const gardenToAdd = getDbObject<Garden>(gardenId, Garden.schema.name);
 
   if (!gardenToAdd) {
     throw new Error(
@@ -210,3 +164,42 @@ export const movePlant = (plantId: string, gardenId: string) => {
     }
   });
 };
+
+export const renamePlant = (plantId: string, value: string) => {
+  const plant = getDbObject<Plant>(plantId, Plant.schema.name);
+  if (plant !== undefined) {
+    db.write(() => {
+      plant.name = value;
+    });
+  }
+};
+
+export const renameGarden = (gardenId: string, value: string) => {
+  const garden = getDbObject<Garden>(gardenId, Garden.schema.name);
+  if (garden !== undefined) {
+    db.write(() => {
+      garden.name = value;
+    });
+  }
+};
+
+export const getPlantsSortedBy = (prop: keyof Plant): Realm.Results<Plant> => {
+  return getPlants().sorted(prop, false);
+};
+
+export const getGardens = (): Realm.Results<Garden> => {
+  return db.objects<Garden>(Garden.schema.name);
+};
+
+export const getPlants = (): Realm.Results<Plant> => {
+  return db.objects<Plant>(Plant.schema.name);
+};
+
+export const getImages = (): Realm.Results<Image> => {
+  return db.objects<Image>(Image.schema.name);
+};
+
+export const getDbObject = <T>(
+  id: string,
+  table: string,
+): (T & Realm.Object) | undefined => db.objectForPrimaryKey<T>(table, id);

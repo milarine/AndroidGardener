@@ -83,26 +83,27 @@ export const usePlants = (): Plant[] => {
 };
 
 export const usePlant = (plantId: string): Plant | undefined => {
-  return useDbObject<Plant>(plantId, 'Plant');
+  return useDbObject<Plant>(plantId, Plant.schema.name);
 };
 
 export const useImage = (imageId: string): Image | undefined => {
-  return useDbObject<Image>(imageId, 'Image');
+  return useDbObject<Image>(imageId, Image.schema.name);
 };
 
-export const useDefaultGarden = (gardenId?: string): Garden | undefined => {
+export const useGarden = (gardenId?: string): Garden | undefined => {
+  // TODO: check if all this is really necessary
   const forceUpdate = useForceUpdate();
   const dbObjectRef = useRef<Garden & Realm.Object>();
 
   useEffect(() => {
     let garden;
     if (gardenId) {
-      garden = getDbObject<Garden>(gardenId, 'Garden');
+      garden = getDbObject<Garden>(gardenId, Garden.schema.name);
     } else {
       const gardens = getGardens();
       garden =
         gardens && gardens.length > 0
-          ? getDbObject<Garden>(gardens[0].id, 'Garden')
+          ? getDbObject<Garden>(gardens[0].id, Garden.schema.name)
           : createGarden({
               name: 'Your first garden',
               plants: getPlantsSortedBy('lastWatered').map((plant) => plant),

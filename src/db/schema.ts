@@ -10,17 +10,10 @@ export class Garden {
     },
   };
 
-  public id: string;
-  public name: string;
-  public plants: Realm.List<Plant>;
-  public created: Date;
-
-  // constructor(id: string, name: string, created: Date, plants: Plant[]) {
-  //   this.id = id;
-  //   this.name = name;
-  //   this.created = created;
-  //   this.plants = plants;
-  // }
+  public id!: string;
+  public name!: string;
+  public plants!: Realm.List<Plant>;
+  public created!: Date;
 }
 
 export class Plant {
@@ -41,26 +34,12 @@ export class Plant {
     },
   };
 
-  public id: string;
-  public name: string;
-  public images: Realm.List<Image>;
-  public lastWatered: Date;
-  public created: Date;
-  public garden: Realm.Results<Garden>;
-
-  // constructor(
-  //   name: string,
-  //   images: Image[],
-  //   lastWatered: Date,
-  //   created: Date,
-  //   id: string,
-  // ) {
-  //   this.id = id;
-  //   this.name = name;
-  //   this.images = images;
-  //   this.lastWatered = lastWatered;
-  //   this.created = created;
-  // }
+  public id!: string;
+  public name!: string;
+  public images!: Realm.List<Image>;
+  public lastWatered!: Date;
+  public created!: Date;
+  public garden!: Realm.Results<Garden>;
 }
 
 export class Image {
@@ -79,16 +58,10 @@ export class Image {
     },
   };
 
-  public id: string;
-  public uri: string;
-  public date: Date;
-  public plant: Realm.Results<Plant>;
-
-  // constructor(id: string, uri: string, date: Date) {
-  //   this.id = id;
-  //   this.uri = uri;
-  //   this.date = date;
-  // }
+  public id!: string;
+  public uri!: string;
+  public date!: Date;
+  public plant!: Realm.Results<Plant>;
 }
 
 export interface ImageDto {

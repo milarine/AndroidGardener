@@ -13,7 +13,7 @@ import {
 } from 'components/index';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { MovePlantDialog } from 'components/MovePlantDialog';
-import { addImage, deleteImage, Plant, updatePlant, usePlant } from 'db';
+import { addImage, deleteImage, renamePlant, usePlant } from 'db';
 import { StackParamList } from 'navigation';
 import { Colors } from 'theme';
 import { formatDate } from 'utils';
@@ -38,15 +38,7 @@ const PlantDetailView: React.FC<Props> = ({
         initialValue={plant.name}
         label="Plant name"
         onSave={(value) => {
-          const { id, lastWatered, created, images } = plant;
-          const plantToSave: Plant = {
-            id,
-            name: value,
-            created,
-            images,
-            lastWatered,
-          };
-          updatePlant(plantToSave);
+          renamePlant(plant.id, value);
         }}
         textColor={Colors.black}
       />

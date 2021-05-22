@@ -7,7 +7,7 @@ import { useTheme } from 'react-native-paper';
 import { BottomActions } from 'components';
 import EditableHeadline from 'components/EditableHeadline';
 import { LoadingSpinner } from 'components/LoadingSpinner';
-import { Garden, Plant, useDefaultGarden, updateGarden } from 'db';
+import { Plant, useGarden, renameGarden } from 'db';
 // import { deleteImage, getImages } from 'db/db';
 import { StackParamList } from 'navigation';
 import { Colors } from 'theme';
@@ -23,7 +23,7 @@ const GardenView = ({
   },
 }: Props) => {
   const { colors } = useTheme();
-  const garden = useDefaultGarden(gardenId);
+  const garden = useGarden(gardenId);
 
   if (!garden) {
     return <LoadingSpinner />;
@@ -61,14 +61,7 @@ const GardenView = ({
             iconColorEdit={Colors.light}
             iconColorSave={Colors.lightest}
             onSave={(value) => {
-              const { id, created, plants } = garden;
-              const gardenToSave: Garden = {
-                id,
-                name: value,
-                created,
-                plants,
-              };
-              updateGarden(gardenToSave);
+              renameGarden(garden.id, value);
             }}
           />
         </View>
