@@ -11,7 +11,7 @@ interface Props {
   onPressPlant: (plantId: string) => void;
 }
 
-const PlantListDetailed = ({ plantIds, onPressPlant }: Props) => {
+const PlantListDetailed: React.FC<Props> = ({ plantIds, onPressPlant }) => {
   const plants = usePlantsSortedBy(plantIds, 'lastWatered');
 
   const onPress = (plantId: string) => {

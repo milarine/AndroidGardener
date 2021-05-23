@@ -41,7 +41,6 @@ export const createPlantView: (
   item,
 }: ListRenderItemInfo<Plant>) => {
   const image = item.images[0];
-  console.log('creating plant view: ', item.name);
 
   return (
     <TouchableOpacity
