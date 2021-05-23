@@ -5,29 +5,29 @@ import { View, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
 import { FloatingActionButton, TextInput } from 'components';
-import { createGarden, Plant, usePlants } from 'db';
+import { createGarden, getPlantsSortedBy } from 'db';
 import { StackParamList } from 'navigation';
-import PlantList from 'screens/GardenViewScreen/PlantList';
+
+import SelectablePlantList, { SelectablePlant } from './SelectablePlantList';
 
 type Props = StackScreenProps<StackParamList, 'AddGardenView'>;
 
-// TODO: clean up
 export const AddGardenView: React.FC<Props> = ({ navigation }) => {
   const [name, setName] = useState('');
-  const plantsInDb = usePlants();
-  // console.log(
-  //   'plants in db: ',
-  //   plantsInDb.map((p) => p.garden.map((g) => g.name)),
-  // );
+  const [plants, setPlants] = useState<SelectablePlant[]>(() => {
+    return getPlantsSortedBy('name').map((p) => ({
+      id: p.id,
+      name: p.name,
+      images: p.images,
+      selected: false,
+    }));
+  });
 
-  const [plantsToAdd, setPlantsToAdd] = useState<Plant[]>([]);
   const { colors } = useTheme();
-  // console.log('====================================');
-  // console.log(plantsToAdd);
-  // console.log('====================================');
 
   const handleSubmit = () => {
-    const garden = createGarden({ name, plants: plantsToAdd });
+    const plantsToAdd = plants.filter((p) => p.selected).map((p) => p.id);
+    const garden = createGarden({ name, plantIds: plantsToAdd });
     navigation.reset({
       index: 0,
       routes: [{ name: 'GardenView', params: { gardenId: garden?.id } }],
@@ -42,15 +42,19 @@ export const AddGardenView: React.FC<Props> = ({ navigation }) => {
           onChangeText={(text) => setName(text)}
           value={name}
         />
-        <PlantList
-          onPressPlant={(plant) =>
-            setPlantsToAdd([...plantsToAdd.slice(), plant])
-          }
-          pressedPlantStyle={{
-            borderColor: colors.accent,
-            borderWidth: 2,
+        <SelectablePlantList
+          onPressPlant={(plant) => {
+            plant.selected = !plant.selected;
+            const index = plants.findIndex((p) => p.id === plant.id);
+            const newPlants = plants.slice();
+            newPlants[index] = plant;
+            setPlants(newPlants);
           }}
-          plantIds={plantsInDb?.map((p) => p.id)}
+          plants={plants}
+          pressedPlantStyle={[
+            styles.pressedPlantStyle,
+            { borderColor: colors.accent },
+          ]}
         />
       </View>
       <FloatingActionButton onPress={handleSubmit} icon="check" />
@@ -62,5 +66,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+  },
+  pressedPlantStyle: {
+    borderWidth: 2,
   },
 });

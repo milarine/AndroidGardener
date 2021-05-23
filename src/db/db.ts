@@ -61,22 +61,23 @@ export const createGarden = (
 ): (Garden & Realm.Object) | undefined => {
   let result: (Garden & Realm.Object) | undefined;
   const newGardenId = uid();
+  const plants = getPlants(values.plantIds);
 
   db.write(() => {
     result = db.create<Garden>(
       Garden.schema.name,
       {
         ...values,
-        plants: values.plants.map((plant) => ({
+        plants: plants.map((plant) => ({
           name: plant.name,
           lastWatered: plant.lastWatered,
           images: plant.images.map((img) => ({
             uri: img.uri,
             id: img.id || uid(),
-            date: new Date(),
+            date: img.date,
           })),
           id: plant.id || uid(),
-          created: new Date(),
+          created: plant.created,
         })),
         created: new Date(),
         id: newGardenId,
@@ -187,16 +188,23 @@ export const renameGarden = (gardenId: string, value: string) => {
   }
 };
 
-export const getPlantsSortedBy = (prop: keyof Plant): Realm.Results<Plant> => {
-  return getPlants().sorted(prop, false);
+export const getPlantsSortedBy = (
+  prop: keyof Plant,
+  ids?: string[],
+): Realm.Results<Plant> => {
+  return (ids ? getPlants(ids) : getPlants()).sorted(prop, false);
 };
 
 export const getGardens = (): Realm.Results<Garden> => {
   return db.objects<Garden>(Garden.schema.name);
 };
 
-export const getPlants = (): Realm.Results<Plant> => {
-  return db.objects<Plant>(Plant.schema.name);
+export const getPlants = (plantIds?: string[]): Realm.Results<Plant> => {
+  const plants = db.objects<Plant>(Plant.schema.name);
+  // realm does not support 'IN'-statement, see https://github.com/realm/realm-js/issues/2781#issuecomment-607213640
+  return plantIds
+    ? plants.filtered(`(${plantIds.map((id) => `id == "${id}"`).join(' OR ')})`)
+    : plants;
 };
 
 export const getImages = (): Realm.Results<Image> => {

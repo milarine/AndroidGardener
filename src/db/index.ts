@@ -11,6 +11,7 @@ export {
   renameGarden,
   waterPlant,
   getPlant,
+  getPlantsSortedBy,
   getGardens,
   movePlant,
 } from './db';

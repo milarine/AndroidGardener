@@ -80,5 +80,5 @@ export interface PlantDto {
 
 export interface GardenDto {
   name: string;
-  plants: PlantDto[];
+  plantIds: string[];
 }

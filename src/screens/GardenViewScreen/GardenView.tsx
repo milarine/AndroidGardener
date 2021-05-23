@@ -7,12 +7,12 @@ import { useTheme } from 'react-native-paper';
 import { BottomActions } from 'components';
 import EditableHeadline from 'components/EditableHeadline';
 import { LoadingSpinner } from 'components/LoadingSpinner';
-import { Plant, useGarden, renameGarden } from 'db';
+import { useGarden, renameGarden } from 'db';
 // import { deleteImage, getImages } from 'db/db';
 import { StackParamList } from 'navigation';
 import { Colors } from 'theme';
 
-import PlantList from './PlantList';
+import PlantListDetailed from './PlantListDetailed';
 
 type Props = StackScreenProps<StackParamList, 'GardenView'>;
 
@@ -38,8 +38,8 @@ const GardenView = ({
 
   const plantIds = garden.plants.map((plant) => plant.id);
 
-  const onPressItem = (plant: Plant) => {
-    navigation.navigate('PlantDetailView', { plantId: plant.id });
+  const onPressItem = (plantId: string) => {
+    navigation.navigate('PlantDetailView', { plantId });
   };
 
   return (
@@ -75,7 +75,7 @@ const GardenView = ({
               styles.gardenContainer,
               { backgroundColor: colors.background },
             ]}>
-            <PlantList onPressPlant={onPressItem} plantIds={plantIds} />
+            <PlantListDetailed onPressPlant={onPressItem} plantIds={plantIds} />
           </View>
         </View>
       </View>

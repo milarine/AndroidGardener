@@ -57,8 +57,14 @@ const useDbResults = <T>(provider: () => Realm.Results<T>): T[] => {
   return resultsRef.current.map((value) => value);
 };
 
-export const usePlantsSortedBy = (prop: keyof Plant): Plant[] => {
-  const plantsProvider = useCallback(() => getPlantsSortedBy(prop), [prop]);
+export const usePlantsSortedBy = (
+  ids: string[],
+  prop: keyof Plant,
+): Plant[] => {
+  const plantsProvider = useCallback(() => getPlantsSortedBy(prop, ids), [
+    ids,
+    prop,
+  ]);
   return useDbResults(plantsProvider);
 };
 
@@ -96,7 +102,9 @@ export const useGarden = (gardenId?: string): Garden | undefined => {
           ? getDbObject<Garden>(gardens[0].id, Garden.schema.name)
           : createGarden({
               name: 'Your first garden',
-              plants: getPlantsSortedBy('lastWatered').map((plant) => plant),
+              plantIds: getPlantsSortedBy('lastWatered').map(
+                (plant) => plant.id,
+              ),
             });
     }
 
