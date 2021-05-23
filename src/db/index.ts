@@ -11,6 +11,8 @@ export {
   renameGarden,
   waterPlant,
   getPlant,
+  getGardens,
+  movePlant,
 } from './db';
 export * from './hooks';
 export * from './schema';

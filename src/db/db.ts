@@ -99,10 +99,13 @@ export const createGarden = (
 export const deletePlant = (id: string): void => {
   const plant = getDbObject<Plant>(id, Plant.schema.name);
   plant?.removeAllListeners();
+  const imageIds = plant?.images?.map((image) => image.id);
+
   db.write(() => {
-    db.delete(plant?.images);
     db.delete(plant);
   });
+
+  imageIds?.forEach((imageId) => deleteImage(imageId));
 };
 
 export const deleteImage = (id: string): void => {
