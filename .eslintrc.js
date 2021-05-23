@@ -1,7 +1,10 @@
 module.exports = {
   root: true,
   extends: ['@react-native-community', 'plugin:import/typescript'],
-  plugins: ['import'],
+  plugins: ['import', 'jest'],
+  env: {
+    'jest/globals': true,
+  },
   rules: {
     'import/order': [
       'error',
