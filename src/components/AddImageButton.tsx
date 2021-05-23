@@ -21,7 +21,7 @@ export const AddImageButton: React.FC<Props> = ({ addImage }) => {
               console.log('Could not launch image library. Error: ', errorCode);
             }
             if (base64) {
-              addImage(`data:image/png;base64,${base64}`);
+              addImage(base64);
             }
           },
         );

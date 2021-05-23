@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { Headline } from 'react-native-paper';
 
+// import { CachedImage } from 'components/CachedImage';
 import { Plant } from 'db';
 import { Colors } from 'theme';
 
@@ -36,6 +37,8 @@ const SelectablePlantList = ({
       ? [styles.plantContainer, pressedPlantStyle]
       : [styles.plantContainer];
 
+    // const image = item.images[0];
+
     return (
       <TouchableOpacity
         style={containerStyles}
@@ -43,11 +46,14 @@ const SelectablePlantList = ({
           onPressPlant(item);
         }}
         activeOpacity={1}>
-        {/*
-        TODO: cache images!!! otherwise rendering images here creates performance problems
-        {item.images && item.images.length > 0 && (
+        {/* TODO: improve performance, this makes rendering extremely slow: */}
+        {/* {item.images && item.images.length > 0 && (
           <View style={[styles.item, styles.imageContainer]}>
-            <Image style={styles.image} source={{ uri: item.images[0].uri }} />
+            <CachedImage
+              style={styles.image}
+              base64={image.uri}
+              id={image.id}
+            />
           </View>
         )} */}
         <View style={[styles.item, styles.infoBox]}>

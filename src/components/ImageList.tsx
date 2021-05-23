@@ -4,13 +4,14 @@ import {
   FlatList,
   StyleSheet,
   SafeAreaView,
-  ImageBackground,
   TouchableOpacity,
 } from 'react-native';
 import { IconButton } from 'react-native-paper';
 
 import { Image } from 'db';
 import { Colors } from 'theme';
+
+import { CachedImageBackground } from './CachedImage';
 
 interface Props {
   images: Image[];
@@ -38,7 +39,10 @@ export const ImageList: React.FC<Props> = ({
                   navigateToFullScreenImage(item.id);
                 }
               }}>
-              <ImageBackground style={styles.image} source={{ uri: item.uri }}>
+              <CachedImageBackground
+                style={styles.image}
+                base64={item.uri}
+                id={item.id}>
                 <IconButton
                   icon="close-circle-outline"
                   size={30}
@@ -47,7 +51,7 @@ export const ImageList: React.FC<Props> = ({
                     deleteImage(item);
                   }}
                 />
-              </ImageBackground>
+              </CachedImageBackground>
             </TouchableOpacity>
           );
         }}

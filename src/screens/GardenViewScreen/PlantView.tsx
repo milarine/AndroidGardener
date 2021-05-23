@@ -2,7 +2,6 @@ import React from 'react';
 
 import {
   Animated,
-  Image,
   ListRenderItemInfo,
   StyleSheet,
   TouchableOpacity,
@@ -11,6 +10,7 @@ import {
 import { Headline, Text } from 'react-native-paper';
 import { RowMap } from 'react-native-swipe-list-view';
 
+import { CachedImage } from 'components/CachedImage';
 import { Plant, waterPlant } from 'db';
 import { Colors } from 'theme';
 import { dateDifferenceString } from 'utils';
@@ -40,6 +40,9 @@ export const createPlantView: (
 ) => ({ item }: ListRenderItemInfo<Plant>) => JSX.Element = (onPressItem) => ({
   item,
 }: ListRenderItemInfo<Plant>) => {
+  const image = item.images[0];
+  console.log('creating plant view: ', item.name);
+
   return (
     <TouchableOpacity
       style={[styles.plantContainer, styles.container]}
@@ -49,7 +52,7 @@ export const createPlantView: (
       activeOpacity={1}>
       {item.images && item.images.length > 0 && (
         <View style={[styles.item, styles.imageContainer]}>
-          <Image style={styles.image} source={{ uri: item.images[0].uri }} />
+          <CachedImage style={styles.image} base64={image.uri} id={image.id} />
         </View>
       )}
       <View style={[styles.item, styles.infoBox]}>
