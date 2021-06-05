@@ -2,7 +2,7 @@ import Realm from 'realm';
 
 import { uid } from 'utils';
 
-import { Plant, PlantDto, Image, Garden, GardenDto } from './schema';
+import { Plant, PlantDto, Image, Garden, GardenDto } from './schema/schema_v2';
 
 let db: Realm;
 
@@ -132,6 +132,15 @@ export const addImage = (plant: Plant, uri: string) => {
   });
 };
 
+export const updateImageDate = (imageId: string, date: Date) => {
+  const image = getDbObject<Image>(imageId, Image.schema.name);
+  db.write(() => {
+    Object.assign(image, {
+      date,
+    });
+  });
+};
+
 export const waterPlant = (plantId: string, date?: Date) => {
   const plant = getDbObject<Plant>(plantId, Plant.schema.name);
   db.write(() => {
@@ -201,21 +210,27 @@ export const getGardens = (): Realm.Results<Garden> => {
 
 export const getPlants = (plantIds?: string[]): Realm.Results<Plant> => {
   const plants = db.objects<Plant>(Plant.schema.name);
-  // realm does not support 'IN'-statement, see https://github.com/realm/realm-js/issues/2781#issuecomment-607213640
-  return plantIds
-    ? plants.filtered(`(${plantIds.map((id) => `id == "${id}"`).join(' OR ')})`)
-    : plants;
+  return plantIds ? plants.filtered(filteredByIds(plantIds)) : plants;
 };
 
-export const getImages = (): Realm.Results<Image> => {
-  return db.objects<Image>(Image.schema.name);
+export const getImages = (imageIds?: string[]): Realm.Results<Image> => {
+  const images = db.objects<Image>(Image.schema.name).sorted('date', true);
+  return imageIds ? images.filtered(filteredByIds(imageIds)) : images;
 };
 
 export const getPlant = (plantId: string): Plant | undefined => {
   return getDbObject<Plant>(plantId, Plant.schema.name);
 };
 
+export const getImage = (imageId: string): Image | undefined => {
+  return getDbObject<Image>(imageId, Image.schema.name);
+};
+
 export const getDbObject = <T>(
   id: string,
   table: string,
 ): (T & Realm.Object) | undefined => db.objectForPrimaryKey<T>(table, id);
+
+// realm does not support 'IN'-statement, see https://github.com/realm/realm-js/issues/2781#issuecomment-607213640
+const filteredByIds = (ids: string[]) =>
+  `(${ids.map((id) => `id == "${id}"`).join(' OR ')})`;

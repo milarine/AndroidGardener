@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import type { StackScreenProps } from '@react-navigation/stack';
 import { View, StyleSheet, Dimensions } from 'react-native';
 
 import { CachedImage } from 'components/CachedImage';
+import { ChangeImageDateButton } from 'components/ChangeImageDateButton';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { useImage } from 'db';
 import { StackParamList } from 'navigation';
@@ -11,11 +12,18 @@ import { StackParamList } from 'navigation';
 type Props = StackScreenProps<StackParamList, 'ImageFullScreenView'>;
 
 const ImageFullScreenView: React.FC<Props> = ({
+  navigation,
   route: {
     params: { imageId },
   },
 }) => {
   const image = useImage(imageId);
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: image ? image.plant?.[0].name : '',
+    });
+  }, [image, navigation]);
 
   if (!image) {
     return <LoadingSpinner />;
@@ -23,6 +31,9 @@ const ImageFullScreenView: React.FC<Props> = ({
 
   return (
     <View style={styles.fullScreenContainer}>
+      <View style={styles.changeImageButton}>
+        <ChangeImageDateButton imageId={imageId} />
+      </View>
       <CachedImage
         base64={image.uri}
         id={image.id}
@@ -43,7 +54,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   fullScreenImage: {
-    height: '100%',
+    height: '90%',
+  },
+  changeImageButton: {
+    justifyContent: 'center',
+    flex: 1,
   },
 });
 

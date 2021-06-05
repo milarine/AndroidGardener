@@ -7,13 +7,15 @@ export {
   deleteImage,
   deletePlant,
   addImage,
+  updateImageDate,
   renamePlant,
   renameGarden,
   waterPlant,
   getPlant,
   getPlantsSortedBy,
   getGardens,
+  getImage,
   movePlant,
 } from './db';
 export * from './hooks';
-export * from './schema';
+export * from './schema/schema_v2';

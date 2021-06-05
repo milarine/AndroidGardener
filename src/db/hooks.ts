@@ -4,10 +4,11 @@ import {
   createGarden,
   getDbObject,
   getGardens,
+  getImages,
   getPlants,
   getPlantsSortedBy,
 } from './db';
-import { Image, Plant, Garden } from './schema';
+import { Image, Plant, Garden } from './schema/schema_v2';
 
 const useForceUpdate = () => {
   const [, forceUpdate] = useReducer((x) => x + 1, 0); // hack to force the UI to update: https://github.com/realm/realm-js/issues/2655#issuecomment-611575445
@@ -84,6 +85,11 @@ export const usePlant = (plantId: string): Plant | undefined => {
 
 export const useImage = (imageId: string): Image | undefined => {
   return useDbObject<Image>(imageId, Image.schema.name);
+};
+
+export const useImages = (imageIds?: string[]): Image[] => {
+  const imageProvider = useCallback(() => getImages(imageIds), [imageIds]);
+  return useDbResults(imageProvider);
 };
 
 export const useGarden = (gardenId?: string): Garden | undefined => {

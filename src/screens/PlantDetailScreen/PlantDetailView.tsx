@@ -8,7 +8,6 @@ import EditableHeadline from 'components/EditableHeadline';
 import {
   AddImageButton,
   DeletePlantDialog,
-  ImageList,
   WaterPlantDialog,
 } from 'components/index';
 import { LoadingSpinner } from 'components/LoadingSpinner';
@@ -17,6 +16,8 @@ import { addImage, deleteImage, renamePlant, usePlant } from 'db';
 import { StackParamList } from 'navigation';
 import { Colors } from 'theme';
 import { formatDate } from 'utils';
+
+import { ImageTimeLine } from './ImageTimeline';
 
 type Props = StackScreenProps<StackParamList, 'PlantDetailView'>;
 
@@ -45,10 +46,10 @@ const PlantDetailView: React.FC<Props> = ({
       <MovePlantButton plant={plant} />
       <Text>{`was last watered on ${formatDate(plant.lastWatered)}`}</Text>
       <Text>{`and added to your garden on ${formatDate(plant.created)}`}</Text>
-      <ImageList
-        images={plant.images}
-        deleteImage={(image) => {
-          deleteImage(image.id);
+      <ImageTimeLine
+        imageIds={plant.images.map((img) => img.id)}
+        deleteImage={(imageId) => {
+          deleteImage(imageId);
         }}
         navigateToFullScreenImage={(imageId) => {
           navigation.navigate('ImageFullScreenView', { imageId });
